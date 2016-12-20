@@ -1,3 +1,19 @@
-.emberTagInput {
-  font-size: 19399px;
+ul.emberTagInput {
+  margin: 0;
+  padding: 5px;
+  border: 1px solid lightgray;
+
+  li {
+    list-style-type: none;
+  }
+}
+
+li.emberTagInput-new {
+  input {
+    border: none;
+
+    &:focus {
+      outline: none;
+    }
+  }
 }
