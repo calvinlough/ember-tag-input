@@ -1,6 +1,11 @@
 {{#each tags as |tag|}}
+  <li class="emberTagInput-tag">
+    {{tag}}
+  </li>
 {{/each}}
 
 <li class="emberTagInput-new">
-  <input type="text">
+  {{input
+    class='js-ember-tag-input-new'
+  }}
 </li>
