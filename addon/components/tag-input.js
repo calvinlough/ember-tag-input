@@ -26,12 +26,26 @@ export default Ember.Component.extend({
 
       if (e.which === KEY_CODES.COMMA || e.which === KEY_CODES.SPACE || e.which === KEY_CODES.ENTER) {
         if (tagInputVal.length > 0) {
+          let onTagAdd = this.get('onTagAdd');
+
           tags.pushObject(tagInputVal);
           tagInput.val('');
+
+          if (onTagAdd) {
+            onTagAdd(tagInputVal);
+          }
+
           e.preventDefault();
         }
       } else if (e.which === KEY_CODES.BACK_BUTTON) {
+        if (tagInputVal.length === 0) {
+          let onTagRemove = this.get('onTagRemove'),
+            removedTag = tags.popObject();
 
+          if (onTagRemove) {
+            onTagRemove(removedTag);
+          }
+        }
       }
     });
   }
