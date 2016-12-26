@@ -18,27 +18,32 @@ export default Ember.Component.extend({
   tags: Ember.A(),
 
   didInsertElement() {
-    let tagInput = this.$('.js-ember-tag-input-new');
+    let container = this.$(),
+      newTagInput = this.$('.js-ember-tag-input-new');
 
-    tagInput.on('keydown', (e) => {
+    container.on('click', (e) => {
+      newTagInput.focus();
+    });
+
+    newTagInput.on('keydown', (e) => {
       let tags = this.get('tags'),
-        tagInputVal = tagInput.val().trim();
+        newTagInputVal = newTagInput.val().trim();
 
       if (e.which === KEY_CODES.COMMA || e.which === KEY_CODES.SPACE || e.which === KEY_CODES.ENTER) {
-        if (tagInputVal.length > 0) {
+        if (newTagInputVal.length > 0) {
           let onTagAdd = this.get('onTagAdd');
 
-          tags.pushObject(tagInputVal);
-          tagInput.val('');
+          tags.pushObject(newTagInputVal);
+          newTagInput.val('');
 
           if (onTagAdd) {
-            onTagAdd(tagInputVal);
+            onTagAdd(newTagInputVal);
           }
 
           e.preventDefault();
         }
       } else if (e.which === KEY_CODES.BACK_BUTTON) {
-        if (tagInputVal.length === 0) {
+        if (newTagInputVal.length === 0) {
           let onTagRemove = this.get('onTagRemove'),
             removedTag = tags.popObject();
 
@@ -47,6 +52,23 @@ export default Ember.Component.extend({
           }
         }
       }
+    });
+
+    newTagInput.on('blur', () => {
+      let tags = this.get('tags'),
+        newTagInputVal = newTagInput.val().trim();
+
+      if (newTagInputVal.length > 0) {
+        let onTagAdd = this.get('onTagAdd');
+
+        tags.pushObject(newTagInputVal);
+
+        if (onTagAdd) {
+          onTagAdd(newTagInputVal);
+        }
+      }
+
+      newTagInput.val('');
     });
   }
 });
