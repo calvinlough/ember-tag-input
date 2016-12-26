@@ -1,11 +1,11 @@
-{{#each tags as |tag|}}
+{{#each tags as |tag|~}}
   <li class="emberTagInput-tag">
     {{tag}}
   </li>
-{{/each}}
+{{~/each~}}
 
 <li class="emberTagInput-new">
   {{input
-    class='js-ember-tag-input-new'
+    class='emberTagInput-input js-ember-tag-input-new'
   }}
 </li>

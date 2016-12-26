@@ -1,6 +1,6 @@
-ul.emberTagInput {
+.emberTagInput {
   margin: 0;
-  padding: 5px;
+  padding: 5px 5px 2px 5px;
   border: 1px solid lightgray;
   cursor: text;
 
@@ -10,12 +10,25 @@ ul.emberTagInput {
   }
 }
 
-li.emberTagInput-new {
-  input {
-    border: none;
+.emberTagInput-tag,
+.emberTagInput-input {
+  font: 12px sans-serif;
+  padding: 5px 10px;
+  margin-bottom: 3px;
+}
 
-    &:focus {
-      outline: none;
-    }
+.emberTagInput-tag {
+  background: cornflowerblue;
+  border-radius: 20px;
+  margin-right: 5px;
+  color: white;
+}
+
+.emberTagInput-input {
+  border: none;
+  padding-left: 0;
+
+  &:focus {
+    outline: none;
   }
 }
