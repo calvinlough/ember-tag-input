@@ -21,7 +21,7 @@ export default Ember.Component.extend({
     let container = this.$(),
       newTagInput = this.$('.js-ember-tag-input-new');
 
-    container.on('click', (e) => {
+    container.on('click', () => {
       newTagInput.focus();
     });
 
