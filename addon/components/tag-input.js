@@ -15,7 +15,11 @@ export default Ember.Component.extend({
 
   tagName: 'ul',
 
-  tags: Ember.A(),
+  tags: null,
+
+  didReceiveAttrs() {
+    this.set('tags', Ember.A(this.get('tags')));
+  },
 
   didInsertElement() {
     let container = this.$(),
