@@ -2,7 +2,7 @@ import Ember from 'ember';
 import layout from '../templates/components/tag-input';
 
 const KEY_CODES = {
-  BACK_BUTTON: 8,
+  BACKSPACE: 8,
   COMMA: 188,
   ENTER: 13,
   SPACE: 32
@@ -46,7 +46,7 @@ export default Ember.Component.extend({
 
           e.preventDefault();
         }
-      } else if (e.which === KEY_CODES.BACK_BUTTON) {
+      } else if (e.which === KEY_CODES.BACKSPACE) {
         if (newTagInputVal.length === 0) {
           let onTagRemove = this.get('onTagRemove'),
             removedTag = tags.popObject();
