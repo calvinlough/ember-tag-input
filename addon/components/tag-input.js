@@ -17,6 +17,8 @@ export default Ember.Component.extend({
 
   tags: null,
 
+  placeholder: '',
+
   didReceiveAttrs() {
     this.set('tags', Ember.A(this.get('tags')));
   },
