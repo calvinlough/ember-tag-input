@@ -8,6 +8,9 @@ const KEY_CODES = {
   SPACE: 32
 };
 
+const TAG_CLASS = 'emberTagInput-tag';
+const REMOVE_CONFIRMATION_CLASS = 'emberTagInput-tag--remove';
+
 export default Ember.Component.extend({
   layout,
 
@@ -16,6 +19,8 @@ export default Ember.Component.extend({
   tagName: 'ul',
 
   tags: null,
+
+  removeConfirmation: true,
 
   allowDuplicates: false,
 
@@ -63,14 +68,26 @@ export default Ember.Component.extend({
           e.preventDefault();
         }
       } else if (e.which === KEY_CODES.BACKSPACE) {
-        if (newTag.length === 0) {
+        if (newTag.length === 0 && tags.length > 0) {
           const onTagRemove = this.get('onTagRemove');
+
+          if (this.get('removeConfirmation')) {
+            const lastTag = this.$('.' + TAG_CLASS).last();
+
+            if (!lastTag.hasClass(REMOVE_CONFIRMATION_CLASS)) {
+              lastTag.addClass(REMOVE_CONFIRMATION_CLASS);
+              return;
+            }
+          }
+
           const removedTag = tags.popObject();
 
           if (onTagRemove) {
             onTagRemove(removedTag);
           }
         }
+      } else {
+        this.$('.' + TAG_CLASS).removeClass(REMOVE_CONFIRMATION_CLASS);
       }
     });
 
