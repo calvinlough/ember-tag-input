@@ -17,10 +17,30 @@ export default Ember.Component.extend({
 
   tags: null,
 
+  allowDuplicates: false,
+
   placeholder: '',
 
   didReceiveAttrs() {
     this.set('tags', Ember.A(this.get('tags')));
+  },
+
+  addNewTag(tag) {
+    const tags = this.get('tags');
+    const onTagAdd = this.get('onTagAdd');
+    const allowDuplicates = this.get('allowDuplicates');
+
+    if (!allowDuplicates && tags.indexOf(tag) >= 0) {
+      return false;
+    }
+
+    tags.pushObject(tag);
+
+    if (onTagAdd) {
+      onTagAdd(tag);
+    }
+
+    return true;
   },
 
   didInsertElement() {
@@ -32,26 +52,20 @@ export default Ember.Component.extend({
     });
 
     newTagInput.on('keydown', (e) => {
-      let tags = this.get('tags'),
-        newTagInputVal = newTagInput.val().trim();
+      const tags = this.get('tags');
+      const newTag = newTagInput.val().trim();
 
       if (e.which === KEY_CODES.COMMA || e.which === KEY_CODES.SPACE || e.which === KEY_CODES.ENTER) {
-        if (newTagInputVal.length > 0) {
-          let onTagAdd = this.get('onTagAdd');
-
-          tags.pushObject(newTagInputVal);
-          newTagInput.val('');
-
-          if (onTagAdd) {
-            onTagAdd(newTagInputVal);
+        if (newTag.length > 0) {
+          if (this.addNewTag(newTag)) {
+            newTagInput.val('');
           }
-
           e.preventDefault();
         }
       } else if (e.which === KEY_CODES.BACKSPACE) {
-        if (newTagInputVal.length === 0) {
-          let onTagRemove = this.get('onTagRemove'),
-            removedTag = tags.popObject();
+        if (newTag.length === 0) {
+          const onTagRemove = this.get('onTagRemove');
+          const removedTag = tags.popObject();
 
           if (onTagRemove) {
             onTagRemove(removedTag);
@@ -61,20 +75,14 @@ export default Ember.Component.extend({
     });
 
     newTagInput.on('blur', () => {
-      let tags = this.get('tags'),
-        newTagInputVal = newTagInput.val().trim();
+      const newTag = newTagInput.val().trim();
 
-      if (newTagInputVal.length > 0) {
-        let onTagAdd = this.get('onTagAdd');
-
-        tags.pushObject(newTagInputVal);
-
-        if (onTagAdd) {
-          onTagAdd(newTagInputVal);
+      if (newTag.length > 0) {
+        if (this.addNewTag(newTag)) {
+          newTagInput.val('');
         }
       }
 
-      newTagInput.val('');
     });
   }
 });
