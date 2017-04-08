@@ -28,31 +28,23 @@ export default Ember.Component.extend({
 
   placeholder: '',
 
-  didReceiveAttrs() {
-    this.set('tags', Ember.A(this.get('tags')));
-  },
-
   addNewTag(tag) {
     const tags = this.get('tags');
-    const onTagAdd = this.get('onTagAdd');
+    const addTag = this.get('addTag');
     const allowDuplicates = this.get('allowDuplicates');
 
     if (!allowDuplicates && tags.indexOf(tag) >= 0) {
       return false;
     }
 
-    tags.pushObject(tag);
-
-    if (onTagAdd) {
-      onTagAdd(tag);
-    }
+    addTag(tag);
 
     return true;
   },
 
   didInsertElement() {
-    let container = this.$(),
-      newTagInput = this.$('.js-ember-tag-input-new');
+    const container = this.$();
+    const newTagInput = this.$('.js-ember-tag-input-new');
 
     container.on('click', () => {
       newTagInput.focus();
@@ -71,7 +63,7 @@ export default Ember.Component.extend({
         }
       } else if (e.which === KEY_CODES.BACKSPACE) {
         if (newTag.length === 0 && tags.length > 0) {
-          const onTagRemove = this.get('onTagRemove');
+          const removeTagAtIndex = this.get('removeTagAtIndex');
 
           if (this.get('removeConfirmation')) {
             const lastTag = this.$('.' + TAG_CLASS).last();
@@ -82,11 +74,7 @@ export default Ember.Component.extend({
             }
           }
 
-          const removedTag = tags.popObject();
-
-          if (onTagRemove) {
-            onTagRemove(removedTag);
-          }
+          removeTagAtIndex(tags.length - 1);
         }
       } else {
         this.$('.' + TAG_CLASS).removeClass(REMOVE_CONFIRMATION_CLASS);
@@ -101,20 +89,13 @@ export default Ember.Component.extend({
           newTagInput.val('');
         }
       }
-
     });
   },
 
   actions: {
-    removeTag(tag, index) {
-      const tags = this.get('tags');
-      const onTagRemove = this.get('onTagRemove');
-
-      tags.removeAt(index);
-
-      if (onTagRemove) {
-        onTagRemove(tag);
-      }
+    removeTag(index) {
+      const removeTagAtIndex = this.get('removeTagAtIndex');
+      removeTagAtIndex(index);
     }
   }
 });
