@@ -37,3 +37,13 @@ In the simplest case, just pass a list of tags to render and actions for adding 
 ### placeholder
 - The placeholder text to display when the user hasn't typed anything.
 - **default: ''**
+
+## Actions
+
+### addTag
+- This action will get called when the user is trying to add a new tag. Your implementation should either add the tag to the tags array or return false if the tag wasn't added.
+- **parameters: tag**
+
+### removeTagAtIndex
+- This action will get called when the user is trying to remove a tag. Your implementation should remove the element from the tags array at the specified index.
+- **parameters: index**
