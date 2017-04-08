@@ -6,7 +6,7 @@ ember-tag-input is a simple Ember addon that converts a user's typing into tags.
 
 ## Usage
 
-In the simplest case, just pass a list of tags to render and actions for adding and removing tags. The component will never change the tags list for you, it will instead call the actions you define when changes need to be made.
+In the simplest case, just pass a list of tags to render and actions for adding and removing tags. The component will never change the tags list for you, it will instead call actions when changes need to be made.
 
 ```handlebars
 {{tag-input
