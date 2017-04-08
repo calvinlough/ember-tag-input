@@ -24,6 +24,8 @@ export default Ember.Component.extend({
 
   allowDuplicates: false,
 
+  showRemoveButtons: true,
+
   placeholder: '',
 
   didReceiveAttrs() {
@@ -101,5 +103,18 @@ export default Ember.Component.extend({
       }
 
     });
+  },
+
+  actions: {
+    removeTag(tag, index) {
+      const tags = this.get('tags');
+      const onTagRemove = this.get('onTagRemove');
+
+      tags.removeAt(index);
+
+      if (onTagRemove) {
+        onTagRemove(tag);
+      }
+    }
   }
 });

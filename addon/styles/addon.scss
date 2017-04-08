@@ -28,6 +28,10 @@
   opacity: 0.75;
 }
 
+.emberTagInput-remove:before {
+  content: 'x';
+}
+
 .emberTagInput-input {
   border: none;
   padding-left: 0;

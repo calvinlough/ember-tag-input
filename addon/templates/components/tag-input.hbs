@@ -1,6 +1,9 @@
-{{#each tags as |tag|~}}
+{{#each tags as |tag index|~}}
   <li class="emberTagInput-tag">
     {{tag}}
+    {{#if showRemoveButtons}}
+      <a class="emberTagInput-remove" {{action 'removeTag' tag index}}></a>
+    {{/if}}
   </li>
 {{~/each~}}
 
