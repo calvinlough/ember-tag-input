@@ -1,27 +1,5 @@
 # ember-tag-input
 
-This README outlines the details of collaborating on this Ember addon.
+ember-tag-input is a simple Ember addon that converts a user's typing into tags. New tags are created when the user types a comma, space, or hits the enter key. Tags can be removed using the backspace key or by clicking the x button on each tag.
 
-## Installation
-
-* `git clone <repository-url>` this repository
-* `cd ember-tag-input`
-* `npm install`
-* `bower install`
-
-## Running
-
-* `ember serve`
-* Visit your app at [http://localhost:4200](http://localhost:4200).
-
-## Running Tests
-
-* `npm test` (Runs `ember try:each` to test your addon against multiple Ember versions)
-* `ember test`
-* `ember test --server`
-
-## Building
-
-* `ember build`
-
-For more information on using ember-cli, visit [https://ember-cli.com/](https://ember-cli.com/).
+![](http://i.imgur.com/O7cfn4C.png)
