@@ -37,9 +37,7 @@ export default Ember.Component.extend({
       return false;
     }
 
-    addTag(tag);
-
-    return true;
+    return addTag(tag) !== false;
   },
 
   didInsertElement() {
