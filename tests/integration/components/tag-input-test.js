@@ -2,7 +2,6 @@ import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 import { typeInInput, typeCharacterInInput } from '../../helpers/ember-tag-input';
-import sinon from 'sinon';
 
 moduleForComponent('tag-input', 'Integration | Component | Ember Tag Input', {
   integration: true
@@ -13,44 +12,55 @@ const KEY_CODES = {
 };
 
 test('New tags are created when delimiter characters are typed', function(assert) {
-  assert.expect(5);
+  assert.expect(4);
 
-  let done = assert.async();
+  const tags = [];
 
-  this.onTagAdd = sinon.stub();
+  this.addTag = function(tag) {
+    tags.pushObject(tag);
+  };
+  this.set('tags', tags);
 
   this.render(hbs`
     {{tag-input
-      onTagAdd=(action onTagAdd)
+      tags=tags
+      addTag=(action addTag)
     }}
   `);
+
+  const done = assert.async();
 
   Ember.run(() => {
     typeInInput('.js-ember-tag-input-new', 'first second ');
 
     Ember.run.next(() => {
-      assert.equal(this.onTagAdd.callCount, 2);
       assert.equal($('.js-ember-tag-input-new').text(), '');
       assert.equal($('.emberTagInput-tag').length, 2);
-      assert.equal($('.emberTagInput-tag').get(0).innerText, 'first');
-      assert.equal($('.emberTagInput-tag').get(1).innerText, 'second');
+      assert.equal($('.emberTagInput-tag').eq(0).text().trim(), 'first');
+      assert.equal($('.emberTagInput-tag').eq(1).text().trim(), 'second');
       done();
     });
   });
 });
 
 test('New tags are created when the field is blurred', function(assert) {
-  assert.expect(4);
+  assert.expect(3);
 
-  let done = assert.async();
+  const tags = [];
 
-  this.onTagAdd = sinon.stub();
+  this.addTag = function(tag) {
+    tags.pushObject(tag);
+  };
+  this.set('tags', tags);
 
   this.render(hbs`
     {{tag-input
-      onTagAdd=(action onTagAdd)
+      tags=tags
+      addTag=(action addTag)
     }}
   `);
+
+  const done = assert.async();
 
   Ember.run(() => {
     typeInInput('.js-ember-tag-input-new', 'blurry');
@@ -58,27 +68,36 @@ test('New tags are created when the field is blurred', function(assert) {
     $('.js-ember-tag-input-new').blur();
 
     Ember.run.next(() => {
-      assert.equal(this.onTagAdd.callCount, 1);
       assert.equal($('.js-ember-tag-input-new').text(), '');
       assert.equal($('.emberTagInput-tag').length, 1);
-      assert.equal($('.emberTagInput-tag').get(0).innerText, 'blurry');
+      assert.equal($('.emberTagInput-tag').eq(0).text().trim(), 'blurry');
       done();
     });
   });
 });
 
 test('Tags can be removed using the backspace key', function(assert) {
-  assert.expect(4);
+  assert.expect(5);
 
-  let done = assert.async();
+  const tags = [];
 
-  this.onTagRemove = sinon.stub();
+  this.addTag = function(tag) {
+    tags.pushObject(tag);
+  };
+  this.removeTagAtIndex = function(index) {
+    tags.removeAt(index);
+  };
+  this.set('tags', tags);
 
   this.render(hbs`
     {{tag-input
-      onTagRemove=(action onTagRemove)
+      tags=tags
+      addTag=(action addTag)
+      removeTagAtIndex=(action removeTagAtIndex)
     }}
   `);
+
+  const done = assert.async();
 
   Ember.run(() => {
     typeInInput('.js-ember-tag-input-new', 'removeme ');
@@ -90,9 +109,15 @@ test('Tags can be removed using the backspace key', function(assert) {
       typeCharacterInInput('.js-ember-tag-input-new', String.fromCharCode(KEY_CODES.BACKSPACE));
 
       Ember.run.next(() => {
-        assert.equal(this.onTagRemove.callCount, 1);
-        assert.equal($('.emberTagInput-tag').length, 0);
-        done();
+        assert.equal($('.emberTagInput-tag').length, 1);
+        assert.equal($('.emberTagInput-tag--remove').length, 1);
+
+        typeCharacterInInput('.js-ember-tag-input-new', String.fromCharCode(KEY_CODES.BACKSPACE));
+
+        Ember.run.next(() => {
+          assert.equal($('.emberTagInput-tag').length, 0);
+          done();
+        });
       });
     });
   });
