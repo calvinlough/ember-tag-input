@@ -15,3 +15,25 @@ In the simplest case, just pass a list of tags to render and actions for adding 
   removeTagAtIndex=(action 'removeTagAtIndex')
 }}
 ```
+
+## Options
+
+### tags
+- An array of tags to render.
+- **default: null**
+
+### removeConfirmation
+- Whether or not it takes two presses of the backspace key to remove a tag. When enabled, the first backspace press will add the class `emberTagInput-tag--remove` to the element that is about to be removed.
+- **default: true**
+
+### allowDuplicates
+- If duplicates tags are allowed in the list.
+- **default: false**
+
+### showRemoveButtons
+- If 'x' removal links should be displayed at the right side of each tag.
+- **default: true**
+
+### placeholder
+- The placeholder text to display when the user hasn't typed anything.
+- **default: ''**
