@@ -10,8 +10,7 @@
   "repository": "https://github.com/calvinlough/ember-tag-input",
   "dependencies": {
     "ember-cli-babel": "^5.2.4",
-    "ember-cli-htmlbars": "^1.2.0",
-    "ember-cli-sass": "^6.1.2"
+    "ember-cli-htmlbars": "^1.2.0"
   },
   "devDependencies": {
     "broccoli-asset-rev": "^2.5.0",
