@@ -52,14 +52,7 @@ export default Ember.Component.extend({
       const tags = this.get('tags');
       const newTag = newTagInput.val().trim();
 
-      if (e.which === KEY_CODES.COMMA || e.which === KEY_CODES.SPACE || e.which === KEY_CODES.ENTER) {
-        if (newTag.length > 0) {
-          if (this.addNewTag(newTag)) {
-            newTagInput.val('');
-          }
-          e.preventDefault();
-        }
-      } else if (e.which === KEY_CODES.BACKSPACE) {
+      if (e.which === KEY_CODES.BACKSPACE) {
         if (newTag.length === 0 && tags.length > 0) {
           const removeTagAtIndex = this.get('removeTagAtIndex');
 
@@ -75,6 +68,15 @@ export default Ember.Component.extend({
           removeTagAtIndex(tags.length - 1);
         }
       } else {
+        if (e.which === KEY_CODES.COMMA || e.which === KEY_CODES.SPACE || e.which === KEY_CODES.ENTER) {
+          if (newTag.length > 0) {
+            if (this.addNewTag(newTag)) {
+              newTagInput.val('');
+            }
+          }
+          e.preventDefault();
+        }
+
         this.$('.' + TAG_CLASS).removeClass(REMOVE_CONFIRMATION_CLASS);
       }
     });
