@@ -1,6 +1,6 @@
 {
   "name": "ember-tag-input",
   "dependencies": {
-    "ember": "~2.10.0"
+    "ember": "~2.13.2"
   }
 }
