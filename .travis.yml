@@ -23,9 +23,7 @@ before_install:
   - export PATH=/usr/local/phantomjs-2.0.0/bin:$PATH
 
 install:
-  - npm install -g bower
   - npm install
-  - bower install
 
 script:
   - ember try:one $EMBER_TRY_SCENARIO --skip-cleanup=true
