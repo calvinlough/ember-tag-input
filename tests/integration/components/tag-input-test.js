@@ -14,7 +14,7 @@ const KEY_CODES = {
 test('New tags are created when delimiter characters are typed', function(assert) {
   assert.expect(4);
 
-  const tags = [];
+  const tags = Ember.A();
 
   this.addTag = function(tag) {
     tags.pushObject(tag);
@@ -46,7 +46,7 @@ test('New tags are created when delimiter characters are typed', function(assert
 test('New tags are created when the field is blurred', function(assert) {
   assert.expect(3);
 
-  const tags = [];
+  const tags = Ember.A();
 
   this.addTag = function(tag) {
     tags.pushObject(tag);
@@ -79,7 +79,7 @@ test('New tags are created when the field is blurred', function(assert) {
 test('Tags can be removed using the backspace key', function(assert) {
   assert.expect(5);
 
-  const tags = [];
+  const tags = Ember.A();
 
   this.addTag = function(tag) {
     tags.pushObject(tag);
