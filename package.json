@@ -23,7 +23,7 @@
     "loader.js": "^4.4.0"
   },
   "dependencies": {
-    "ember-cli-babel": "^6.1.0",
+    "ember-cli-babel": "^6.4.1",
     "ember-cli-htmlbars": "^2.0.1"
   },
   "engines": {
