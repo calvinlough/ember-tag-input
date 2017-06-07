@@ -8,10 +8,6 @@
   "license": "MIT",
   "author": "Calvin Lough",
   "repository": "https://github.com/calvinlough/ember-tag-input",
-  "dependencies": {
-    "ember-cli-babel": "^6.1.0",
-    "ember-cli-htmlbars": "^2.0.1"
-  },
   "devDependencies": {
     "broccoli-asset-rev": "^2.5.0",
     "ember-cli": "^2.13.2",
@@ -25,6 +21,10 @@
     "ember-load-initializers": "^1.0.0",
     "ember-resolver": "^4.1.0",
     "loader.js": "^4.4.0"
+  },
+  "dependencies": {
+    "ember-cli-babel": "^6.1.0",
+    "ember-cli-htmlbars": "^2.0.1"
   },
   "engines": {
     "node": ">= 0.12.0"
