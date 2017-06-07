@@ -9,7 +9,7 @@ notifications:
 sudo: false
 
 env:
-  - EMBER_TRY_SCENARIO=ember-2.11
+  - EMBER_TRY_SCENARIO=ember-2.0
   - EMBER_TRY_SCENARIO=ember-release
   - EMBER_TRY_SCENARIO=ember-beta
   - EMBER_TRY_SCENARIO=ember-canary
@@ -23,6 +23,7 @@ before_install:
   - export PATH=/usr/local/phantomjs-2.0.0/bin:$PATH
 
 install:
+  - npm install -g bower
   - npm install
 
 script:
