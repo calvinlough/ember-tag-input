@@ -123,10 +123,10 @@ test('Tags can be removed using the backspace key', function(assert) {
   });
 });
 
-test('Tags can contain multiple words when allowMultipleWords is set to true', function(assert) {
+test('Tags can contain spaces when allowSpacesInTags is set to true', function(assert) {
   assert.expect(3);
 
-  const tags = [];
+  const tags = Ember.A();
 
   this.addTag = function(tag) {
     tags.pushObject(tag);
@@ -137,7 +137,7 @@ test('Tags can contain multiple words when allowMultipleWords is set to true', f
     {{tag-input
       tags=tags
       addTag=(action addTag)
-      allowMultipleWords=true
+      allowSpacesInTags=true
     }}
   `);
 
