@@ -24,6 +24,8 @@ export default Ember.Component.extend({
 
   allowDuplicates: false,
 
+  allowSpacesInTags: false,
+
   showRemoveButtons: true,
 
   placeholder: '',
@@ -49,6 +51,7 @@ export default Ember.Component.extend({
     });
 
     newTagInput.on('keydown', (e) => {
+      const allowSpacesInTags = this.get('allowSpacesInTags');
       const tags = this.get('tags');
       const newTag = newTagInput.val().trim();
 
@@ -68,7 +71,7 @@ export default Ember.Component.extend({
           removeTagAtIndex(tags.length - 1);
         }
       } else {
-        if (e.which === KEY_CODES.COMMA || e.which === KEY_CODES.SPACE || e.which === KEY_CODES.ENTER) {
+        if (e.which === KEY_CODES.COMMA || (!allowSpacesInTags && e.which === KEY_CODES.SPACE) || e.which === KEY_CODES.ENTER) {
           if (newTag.length > 0) {
             if (this.addNewTag(newTag)) {
               newTagInput.val('');

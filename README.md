@@ -27,6 +27,10 @@ In the simplest case, just pass a list of tags to render and actions for adding 
 - Whether or not it takes two presses of the backspace key to remove a tag. When enabled, the first backspace press will add the class `emberTagInput-tag--remove` to the element that is about to be removed.
 - **default: true**
 
+### allowSpacesInTags
+- If tags are allowed to contain spaces.
+- **default: false**
+
 ### allowDuplicates
 - If duplicates tags are allowed in the list.
 - **default: false**
