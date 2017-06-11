@@ -20,6 +20,24 @@ In the simplest case, just pass a list of tags to render and actions for adding 
 {{/tag-input}}
 ```
 
+```js
+import Ember from 'ember';
+
+export default Ember.Controller.extend({
+  tags: [],
+
+  actions: {
+    addTag(tag) {
+      this.get('tags').pushObject(tag);
+    },
+
+    removeTagAtIndex(index) {
+      this.get('tags').removeAt(index);
+    }
+  }
+});
+```
+
 The above example works if your tags array is just an simple array of strings. If your tags are more complex objects, you can render them however you want, as demonstrated by the following example:
 
 ```handlebars
