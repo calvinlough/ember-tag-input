@@ -1,6 +1,9 @@
-{{tag-input
+{{#tag-input
   tags=tags
   placeholder='Add a tag...'
   addTag=(action 'addTag')
   removeTagAtIndex=(action 'removeTag')
+  as |tag|
 }}
+  {{tag}}
+{{/tag-input}}
