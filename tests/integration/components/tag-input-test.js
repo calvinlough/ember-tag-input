@@ -22,10 +22,13 @@ test('New tags are created when delimiter characters are typed', function(assert
   this.set('tags', tags);
 
   this.render(hbs`
-    {{tag-input
+    {{#tag-input
       tags=tags
       addTag=(action addTag)
+      as |tag|
     }}
+      {{tag}}
+    {{/tag-input}}
   `);
 
   const done = assert.async();
@@ -54,10 +57,13 @@ test('New tags are created when the field is blurred', function(assert) {
   this.set('tags', tags);
 
   this.render(hbs`
-    {{tag-input
+    {{#tag-input
       tags=tags
       addTag=(action addTag)
+      as |tag|
     }}
+      {{tag}}
+    {{/tag-input}}
   `);
 
   const done = assert.async();
@@ -90,11 +96,14 @@ test('Tags can be removed using the backspace key', function(assert) {
   this.set('tags', tags);
 
   this.render(hbs`
-    {{tag-input
+    {{#tag-input
       tags=tags
       addTag=(action addTag)
       removeTagAtIndex=(action removeTagAtIndex)
+      as |tag|
     }}
+      {{tag}}
+    {{/tag-input}}
   `);
 
   const done = assert.async();
@@ -134,11 +143,14 @@ test('Tags can contain spaces when allowSpacesInTags is set to true', function(a
   this.set('tags', tags);
 
   this.render(hbs`
-    {{tag-input
+    {{#tag-input
       tags=tags
       addTag=(action addTag)
       allowSpacesInTags=true
+      as |tag|
     }}
+      {{tag}}
+    {{/tag-input}}
   `);
 
   const done = assert.async();
