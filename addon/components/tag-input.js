@@ -27,6 +27,8 @@ export default Ember.Component.extend({
   allowSpacesInTags: false,
 
   showRemoveButtons: true,
+  
+  showInputField : true,
 
   placeholder: '',
 

@@ -77,7 +77,9 @@ The above example works if your tags array is just an simple array of strings. I
 ### showRemoveButtons
 - If 'x' removal links should be displayed at the right side of each tag.
 - **default: true**
-
+### showInputField
+- If this is true it will show input field to add new tags.
+- **default: true**
 ### placeholder
 - The placeholder text to display when the user hasn't typed anything.
 - **default: ''**
