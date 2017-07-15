@@ -10,22 +10,22 @@
   "repository": "https://github.com/calvinlough/ember-tag-input",
   "devDependencies": {
     "broccoli-asset-rev": "^2.5.0",
-    "ember-cli": "^2.13.2",
+    "ember-cli": "^2.14.0",
     "ember-cli-htmlbars-inline-precompile": "^0.4.3",
-    "ember-cli-inject-live-reload": "^1.4.1",
+    "ember-cli-inject-live-reload": "^1.7.0",
     "ember-cli-jshint": "^2.0.1",
     "ember-cli-qunit": "^4.0.0",
     "ember-cli-shims": "^1.1.0",
     "ember-cli-test-loader": "^2.1.0",
     "ember-cli-uglify": "^1.2.0",
     "ember-load-initializers": "^1.0.0",
-    "ember-resolver": "^4.1.0",
-    "ember-source": "^2.13.3",
-    "loader.js": "^4.4.0"
+    "ember-resolver": "^4.3.0",
+    "ember-source": "^2.14.1",
+    "loader.js": "^4.5.1"
   },
   "dependencies": {
-    "ember-cli-babel": "^6.4.1",
-    "ember-cli-htmlbars": "^2.0.1"
+    "ember-cli-babel": "^6.6.0",
+    "ember-cli-htmlbars": "^2.0.2"
   },
   "engines": {
     "node": ">= 0.12.0"
