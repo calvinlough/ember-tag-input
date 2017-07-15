@@ -1,6 +1,8 @@
 import Ember from 'ember';
 import layout from '../templates/components/tag-input';
 
+const { Component, computed } = Ember;
+
 const KEY_CODES = {
   BACKSPACE: 8,
   COMMA: 188,
@@ -11,10 +13,10 @@ const KEY_CODES = {
 const TAG_CLASS = 'emberTagInput-tag';
 const REMOVE_CONFIRMATION_CLASS = 'emberTagInput-tag--remove';
 
-export default Ember.Component.extend({
+export default Component.extend({
   layout,
 
-  classNames: ['emberTagInput'],
+  classNameBindings: [':emberTagInput', 'readOnly:emberTagInput--readOnly'],
 
   tagName: 'ul',
 
@@ -28,7 +30,13 @@ export default Ember.Component.extend({
 
   showRemoveButtons: true,
 
+  readOnly: false,
+
   placeholder: '',
+
+  _isRemoveButtonVisible: computed('showRemoveButtons', 'readOnly', function() {
+    return this.get('showRemoveButtons') && !this.get('readOnly');
+  }),
 
   addNewTag(tag) {
     const tags = this.get('tags');

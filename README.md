@@ -79,8 +79,12 @@ The above example works if your tags array is just an simple array of strings. I
 - **default: true**
 
 ### placeholder
-- The placeholder text to display when the user hasn't typed anything.
+- The placeholder text to display when the user hasn't typed anything. Isn't displayed if readOnly=true.
 - **default: ''**
+
+### readOnly
+- If a read only view of the tags should be displayed. If enabled, existing tags can't be removed and new tags can't be added.
+- **default: false**
 
 ## Actions
 
