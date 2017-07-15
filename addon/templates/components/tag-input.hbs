@@ -1,15 +1,17 @@
 {{#each tags as |tag index|~}}
   <li class="emberTagInput-tag">
     {{yield tag}}
-    {{#if showRemoveButtons}}
+    {{#if _isRemoveButtonVisible}}
       <a class="emberTagInput-remove" {{action 'removeTag' index}}></a>
     {{/if}}
   </li>
 {{~/each~}}
 
-<li class="emberTagInput-new">
-  {{input
-    class='emberTagInput-input js-ember-tag-input-new'
-    placeholder=placeholder
-  }}
-</li>
+{{#unless readOnly}}
+  <li class="emberTagInput-new">
+    {{input
+      class='emberTagInput-input js-ember-tag-input-new'
+      placeholder=placeholder
+    }}
+  </li>
+{{/unless}}

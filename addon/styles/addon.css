@@ -4,6 +4,9 @@
   border: 1px solid lightgray;
   cursor: text;
 }
+.emberTagInput--readOnly {
+  cursor: default;
+}
 
 .emberTagInput li {
   list-style-type: none;

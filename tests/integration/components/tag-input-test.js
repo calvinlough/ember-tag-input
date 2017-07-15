@@ -168,3 +168,24 @@ test('Tags can contain spaces when allowSpacesInTags is set to true', function(a
     });
   });
 });
+
+test('Tags can\'t be added or removed in read only mode', function(assert) {
+  assert.expect(3);
+
+  const tags = Ember.A(['hamburger', 'cheeseburger']);
+  this.set('tags', tags);
+
+  this.render(hbs`
+    {{#tag-input
+      tags=tags
+      readOnly=true
+      as |tag|
+    }}
+      {{tag}}
+    {{/tag-input}}
+  `);
+
+  assert.equal($('.emberTagInput-tag').length, 2);
+  assert.equal($('.emberTagInput-remove').length, 0);
+  assert.equal($('.emberTagInput-new').length, 0);
+});
