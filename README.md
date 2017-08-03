@@ -95,3 +95,7 @@ The above example works if your tags array is just an simple array of strings. I
 ### removeTagAtIndex
 - This action will get called when the user is trying to remove a tag. Your implementation should remove the element from the tags array at the specified index.
 - **parameters: index**
+
+### onKeyUp
+- This action will get called when the user is typing into an input.
+- **parameters: currentInputValue**

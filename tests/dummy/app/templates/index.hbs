@@ -3,7 +3,12 @@
   placeholder='Add a tag...'
   addTag=(action 'addTag')
   removeTagAtIndex=(action 'removeTag')
+  onKeyUp=(action 'onKeyUp')
   as |tag|
 }}
   {{tag}}
 {{/tag-input}}
+
+{{#if currentInputValue}}
+  <p>typing: {{currentInputValue}}</p>
+{{/if}}

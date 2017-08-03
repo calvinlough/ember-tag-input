@@ -10,6 +10,10 @@ export default Ember.Controller.extend({
 
     removeTag(index) {
       this.get('tags').removeAt(index);
+    },
+
+    onKeyUp(value) {
+      this.set('currentInputValue', value);
     }
   }
 });

@@ -38,6 +38,8 @@ export default Component.extend({
     return this.get('showRemoveButtons') && !this.get('readOnly');
   }),
 
+  onKeyUp: false,
+
   addNewTag(tag) {
     const tags = this.get('tags');
     const addTag = this.get('addTag');
@@ -98,9 +100,20 @@ export default Component.extend({
       if (newTag.length > 0) {
         if (this.addNewTag(newTag)) {
           newTagInput.val('');
+          this.dispatchKeyUp('');
         }
       }
     });
+
+    newTagInput.on('keyup', (e) => {
+      this.dispatchKeyUp(e.target.value);
+    });
+  },
+
+  dispatchKeyUp(value) {
+    if(this.get('onKeyUp')) {
+      this.get('onKeyUp')(value);
+    }
   },
 
   actions: {

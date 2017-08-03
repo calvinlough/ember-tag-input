@@ -189,3 +189,49 @@ test('Tags can\'t be added or removed in read only mode', function(assert) {
   assert.equal($('.emberTagInput-remove').length, 0);
   assert.equal($('.emberTagInput-new').length, 0);
 });
+
+test('send input value when typing', function(assert) {
+  const tags = Ember.A();
+
+  this.addTag = function(tag) {
+    tags.pushObject(tag);
+  };
+
+  this.set('tags', tags);
+
+  let inputValue;
+
+  this.onKeyUp = function(value) {
+    inputValue = value;
+  };
+
+  this.render(hbs`
+    {{#tag-input
+      tags=tags
+      addTag=(action addTag)
+      onKeyUp=(action onKeyUp)
+      as |tag|
+    }}
+      {{tag}}
+    {{/tag-input}}
+  `);
+
+  const done = assert.async();
+
+  Ember.run(() => {
+    typeCharacterInInput('.js-ember-tag-input-new', 't', 'keyup');
+    assert.equal(inputValue, 't');
+    typeCharacterInInput('.js-ember-tag-input-new', 'e', 'keyup');
+    assert.equal(inputValue, 'te');
+    typeCharacterInInput('.js-ember-tag-input-new', 's', 'keyup');
+    assert.equal(inputValue, 'tes');
+    $('.js-ember-tag-input-new').blur();
+
+    Ember.run.next(() => {
+      assert.equal($('.emberTagInput-tag').length, 1);
+      assert.equal($('.emberTagInput-tag').eq(0).text().trim(), 'tes');
+      assert.equal(inputValue, '');
+      done();
+    });
+  });
+});
