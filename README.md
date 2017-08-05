@@ -97,5 +97,5 @@ The above example works if your tags array is just an simple array of strings. I
 - **parameters: index**
 
 ### onKeyUp
-- This action will get called when the user is typing into an input.
+- This action will get called after each key press.
 - **parameters: currentInputValue**
