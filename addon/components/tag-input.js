@@ -111,7 +111,7 @@ export default Component.extend({
   },
 
   dispatchKeyUp(value) {
-    if(this.get('onKeyUp')) {
+    if (this.get('onKeyUp')) {
       this.get('onKeyUp')(value);
     }
   },
