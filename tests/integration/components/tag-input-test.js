@@ -8,7 +8,8 @@ moduleForComponent('tag-input', 'Integration | Component | Ember Tag Input', {
 });
 
 const KEY_CODES = {
-  BACKSPACE: 8
+  BACKSPACE: 8,
+  ENTER: 13
 };
 
 test('New tags are created when delimiter characters are typed', function(assert) {
@@ -231,6 +232,40 @@ test('send input value when typing', function(assert) {
       assert.equal($('.emberTagInput-tag').length, 1);
       assert.equal($('.emberTagInput-tag').eq(0).text().trim(), 'tes');
       assert.equal(inputValue, '');
+      done();
+    });
+  });
+});
+
+test('disable enter key stroke to add new tag', function(assert) {
+  const tags = Ember.A();
+
+  this.addTag = function(tag) {
+    tags.pushObject(tag);
+  };
+
+  this.set('tags', tags);
+
+  this.render(hbs`
+    {{#tag-input
+      tags=tags
+      addTag=(action addTag)
+      disableEnter=true
+      as |tag|
+    }}
+      {{tag}}
+    {{/tag-input}}
+  `);
+
+  const done = assert.async();
+
+  Ember.run(() => {
+    typeInInput('.js-ember-tag-input-new', 'newTagWontBeAdded');
+    typeCharacterInInput('.js-ember-tag-input-new', String.fromCharCode(KEY_CODES.ENTER));
+
+    Ember.run.next(() => {
+      assert.equal($('.js-ember-tag-input-new').val(), 'newTagWontBeAdded');
+      assert.equal($('.emberTagInput-tag').length, 0);
       done();
     });
   });

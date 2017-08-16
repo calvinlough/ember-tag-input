@@ -2,6 +2,7 @@ import Ember from 'ember';
 
 export default Ember.Controller.extend({
   tags: ['foo', 'bar'],
+  disableEnter: false,
 
   actions: {
     addTag(tag) {

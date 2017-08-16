@@ -4,10 +4,13 @@
   addTag=(action 'addTag')
   removeTagAtIndex=(action 'removeTag')
   onKeyUp=(action 'onKeyUp')
+  disableEnter=disableEnter
   as |tag|
 }}
   {{tag}}
 {{/tag-input}}
+
+{{input type="checkbox" checked=disableEnter}} Disable Enter
 
 {{#if currentInputValue}}
   <p>typing: {{currentInputValue}}</p>

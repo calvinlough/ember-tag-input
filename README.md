@@ -86,6 +86,10 @@ The above example works if your tags array is just an simple array of strings. I
 - If a read only view of the tags should be displayed. If enabled, existing tags can't be removed and new tags can't be added.
 - **default: false**
 
+### disableEnter
+- disable enter key stroke to add new tag
+- **default: false**
+
 ## Actions
 
 ### addTag

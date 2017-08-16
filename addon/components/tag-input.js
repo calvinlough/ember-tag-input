@@ -40,6 +40,8 @@ export default Component.extend({
 
   onKeyUp: false,
 
+  disableEnter: false,
+
   addNewTag(tag) {
     const tags = this.get('tags');
     const addTag = this.get('addTag');
@@ -64,6 +66,7 @@ export default Component.extend({
       const allowSpacesInTags = this.get('allowSpacesInTags');
       const tags = this.get('tags');
       const newTag = newTagInput.val().trim();
+      const disableEnter = this.get('disableEnter');
 
       if (e.which === KEY_CODES.BACKSPACE) {
         if (newTag.length === 0 && tags.length > 0) {
@@ -81,7 +84,7 @@ export default Component.extend({
           removeTagAtIndex(tags.length - 1);
         }
       } else {
-        if (e.which === KEY_CODES.COMMA || (!allowSpacesInTags && e.which === KEY_CODES.SPACE) || e.which === KEY_CODES.ENTER) {
+        if (e.which === KEY_CODES.COMMA || (!allowSpacesInTags && e.which === KEY_CODES.SPACE) || (!disableEnter && e.which === KEY_CODES.ENTER)) {
           if (newTag.length > 0) {
             if (this.addNewTag(newTag)) {
               newTagInput.val('');
