@@ -235,3 +235,78 @@ test('send input value when typing', function(assert) {
     });
   });
 });
+
+test('Tags can be added after readOnly changes to false', function(assert) {
+  assert.expect(4);
+
+  const tags = Ember.A();
+
+  this.addTag = function(tag) {
+    tags.pushObject(tag);
+  };
+  this.set('tags', tags);
+  this.set('readOnly', true);
+
+  this.render(hbs`
+    {{#tag-input
+      tags=tags
+      addTag=(action addTag)
+      readOnly=readOnly
+      as |tag|
+    }}
+      {{tag}}
+    {{/tag-input}}
+  `);
+
+  const done = assert.async();
+
+  Ember.run(() => {
+    this.set('readOnly', false);
+
+    typeInInput('.js-ember-tag-input-new', 'some tag ');
+
+    Ember.run.next(() => {
+      assert.equal($('.js-ember-tag-input-new').text(), '');
+      assert.equal($('.emberTagInput-tag').length, 2);
+      assert.equal($('.emberTagInput-tag').eq(0).text().trim(), 'some');
+      assert.equal($('.emberTagInput-tag').eq(1).text().trim(), 'tag');
+      done();
+    });
+  });
+});
+
+test('Tags can\'t be added or removed after readOnly changes from false to true', function(assert) {
+  assert.expect(5);
+
+  const tags = Ember.A(['hamburger', 'cheeseburger']);
+  this.set('tags', tags);
+  this.set('readOnly', false);
+
+  this.render(hbs`
+    {{#tag-input
+      tags=tags
+      readOnly=true
+      as |tag|
+    }}
+      {{tag}}
+    {{/tag-input}}
+  `);
+
+
+  const done = assert.async();
+
+  Ember.run(() => {
+    this.set('readOnly', true);
+
+    Ember.run.next(() => {
+      const $input = this.$().find('.js-ember-tag-input-new');
+      assert.notOk($input.get(0));
+
+      assert.notOk($('.js-ember-tag-input-new').get(0));
+      assert.equal($('.emberTagInput-tag').length, 2);
+      assert.notOk($('.emberTagInput-tag > .emberTagInput-remove').get(0));
+      assert.notOk($('.emberTagInput-tag > .emberTagInput-remove').get(0));
+      done();
+    });
+  });
+});

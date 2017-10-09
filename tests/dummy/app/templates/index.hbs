@@ -1,3 +1,5 @@
+<h1>Default</h1>
+
 {{#tag-input
   tags=tags
   placeholder='Add a tag...'
@@ -8,6 +10,26 @@
 }}
   {{tag}}
 {{/tag-input}}
+
+{{#if currentInputValue}}
+  <p>typing: {{currentInputValue}}</p>
+{{/if}}
+
+<h1>readOnly</h1>
+
+{{#tag-input
+  tags=tags
+  placeholder='Add a tag...'
+  addTag=(action 'addTag')
+  removeTagAtIndex=(action 'removeTag')
+  onKeyUp=(action 'onKeyUp')
+  readOnly=readOnly
+  as |tag|
+}}
+  {{tag}}
+{{/tag-input}}
+
+<button type="button" name="button" {{action "toggleReadOnly"}}>Toggle</button>
 
 {{#if currentInputValue}}
   <p>typing: {{currentInputValue}}</p>

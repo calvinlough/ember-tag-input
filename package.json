@@ -21,7 +21,8 @@
     "ember-load-initializers": "^1.0.0",
     "ember-resolver": "^4.3.0",
     "ember-source": "^2.14.1",
-    "loader.js": "^4.6.0"
+    "loader.js": "^4.6.0",
+    "phantomjs-prebuilt": "^2.1.15"
   },
   "dependencies": {
     "ember-cli-babel": "^6.7.1",

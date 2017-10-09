@@ -3,6 +3,8 @@ import Ember from 'ember';
 export default Ember.Controller.extend({
   tags: ['foo', 'bar'],
 
+  readOnly: true,
+
   actions: {
     addTag(tag) {
       this.get('tags').pushObject(tag);
@@ -14,6 +16,10 @@ export default Ember.Controller.extend({
 
     onKeyUp(value) {
       this.set('currentInputValue', value);
+    },
+
+    toggleReadOnly() {
+      this.toggleProperty('readOnly');
     }
   }
 });
