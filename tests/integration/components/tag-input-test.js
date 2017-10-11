@@ -170,7 +170,7 @@ test('Tags can contain spaces when allowSpacesInTags is set to true', function(a
 });
 
 test('Tags can\'t be added or removed in read only mode', function(assert) {
-  assert.expect(3);
+  assert.expect(5);
 
   const tags = Ember.A(['hamburger', 'cheeseburger']);
   this.set('tags', tags);
@@ -187,7 +187,11 @@ test('Tags can\'t be added or removed in read only mode', function(assert) {
 
   assert.equal($('.emberTagInput-tag').length, 2);
   assert.equal($('.emberTagInput-remove').length, 0);
-  assert.equal($('.emberTagInput-new').length, 0);
+  assert.equal($('.emberTagInput-new').length, 1);
+
+  const $input = $('.emberTagInput-new input');
+  assert.equal($input.length, 1);
+  assert.ok($input.prop('disabled'));
 });
 
 test('send input value when typing', function(assert) {
@@ -299,13 +303,13 @@ test('Tags can\'t be added or removed after readOnly changes from false to true'
     this.set('readOnly', true);
 
     Ember.run.next(() => {
-      const $input = this.$().find('.js-ember-tag-input-new');
-      assert.notOk($input.get(0));
-
-      assert.notOk($('.js-ember-tag-input-new').get(0));
       assert.equal($('.emberTagInput-tag').length, 2);
-      assert.notOk($('.emberTagInput-tag > .emberTagInput-remove').get(0));
-      assert.notOk($('.emberTagInput-tag > .emberTagInput-remove').get(0));
+      assert.equal($('.emberTagInput-remove').length, 0);
+      assert.equal($('.emberTagInput-new').length, 1);
+
+      const $input = $('.emberTagInput-new input');
+      assert.equal($input.length, 1);
+      assert.ok($input.prop('disabled'));
       done();
     });
   });

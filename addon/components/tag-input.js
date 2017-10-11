@@ -1,7 +1,7 @@
 import Ember from 'ember';
 import layout from '../templates/components/tag-input';
 
-const { Component, computed, run } = Ember;
+const { Component, computed} = Ember;
 
 const KEY_CODES = {
   BACKSPACE: 8,
@@ -64,7 +64,11 @@ export default Component.extend({
 
   _onContainerClick() {
     const newTagInput = this.$('.js-ember-tag-input-new');
-    newTagInput.focus();
+    const isReadOnly = this.get('readOnly');
+
+    if (!isReadOnly) {
+      newTagInput.focus();
+    }
   },
 
   _onInputKeyDown(e) {
@@ -106,7 +110,6 @@ export default Component.extend({
 
     if (newTag.length > 0) {
       if (this.addNewTag(newTag)) {
-        //newTagInput.val('');
         e.target.value = '';
         this.dispatchKeyUp('');
       }
@@ -119,38 +122,17 @@ export default Component.extend({
 
   initEvents() {
     const container = this.$();
-    const readOnly = this.get('readOnly');
-
     const onContainerClick = this._onContainerClick.bind(this);
     const onInputKeyDown = this._onInputKeyDown.bind(this);
     const onInputBlur = this._onInputBlur.bind(this);
     const onInputKeyUp = this._onInputKeyUp.bind(this);
 
-    this.addObserver('readOnly', () => {
-      const readOnly = this.get('readOnly');
+    container.on('click', onContainerClick);
+    const newTagInput = this.$('.js-ember-tag-input-new');
 
-      if(readOnly) {
-        container.off('click', onContainerClick);
-      } else {
-        container.on('click', onContainerClick);
-
-        run.schedule('afterRender', () => {
-          const newTagInput = this.$('.js-ember-tag-input-new');
-          newTagInput.on('keydown', onInputKeyDown);
-          newTagInput.on('blur', onInputBlur);
-          newTagInput.on('keyup', onInputKeyUp);
-        });
-      }
-    });
-
-    if (!readOnly) {
-      container.on('click', onContainerClick);
-      const newTagInput = this.$('.js-ember-tag-input-new');
-
-      newTagInput.on('keydown', onInputKeyDown);
-      newTagInput.on('blur', onInputBlur);
-      newTagInput.on('keyup', onInputKeyUp);
-    }
+    newTagInput.on('keydown', onInputKeyDown);
+    newTagInput.on('blur', onInputBlur);
+    newTagInput.on('keyup', onInputKeyUp);
   },
 
   actions: {

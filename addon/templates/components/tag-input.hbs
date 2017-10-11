@@ -7,11 +7,12 @@
   </li>
 {{~/each~}}
 
-{{#unless readOnly}}
-  <li class="emberTagInput-new">
-    {{input
-      class='emberTagInput-input js-ember-tag-input-new'
-      placeholder=placeholder
-    }}
-  </li>
-{{/unless}}
+{{!#unless readOnly}}
+<li class="emberTagInput-new">
+  {{input
+    disabled=readOnly
+    class=(concat 'emberTagInput-input js-ember-tag-input-new' (if readOnly ' is-disabled'))
+    placeholder=placeholder
+  }}
+</li>
+{{!/unless}}
