@@ -45,7 +45,7 @@ export default Component.extend({
     const addTag = this.get('addTag');
     const allowDuplicates = this.get('allowDuplicates');
 
-    if (!allowDuplicates && tags.indexOf(tag) >= 0) {
+    if (!allowDuplicates && tags && tags.indexOf(tag) >= 0) {
       return false;
     }
 
