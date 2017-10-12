@@ -1,7 +1,7 @@
 import Ember from 'ember';
 import layout from '../templates/components/tag-input';
 
-const { Component, computed } = Ember;
+const { Component, computed} = Ember;
 
 const KEY_CODES = {
   BACKSPACE: 8,
@@ -53,67 +53,86 @@ export default Component.extend({
   },
 
   didInsertElement() {
-    const container = this.$();
-    const newTagInput = this.$('.js-ember-tag-input-new');
-
-    container.on('click', () => {
-      newTagInput.focus();
-    });
-
-    newTagInput.on('keydown', (e) => {
-      const allowSpacesInTags = this.get('allowSpacesInTags');
-      const tags = this.get('tags');
-      const newTag = newTagInput.val().trim();
-
-      if (e.which === KEY_CODES.BACKSPACE) {
-        if (newTag.length === 0 && tags.length > 0) {
-          const removeTagAtIndex = this.get('removeTagAtIndex');
-
-          if (this.get('removeConfirmation')) {
-            const lastTag = this.$('.' + TAG_CLASS).last();
-
-            if (!lastTag.hasClass(REMOVE_CONFIRMATION_CLASS)) {
-              lastTag.addClass(REMOVE_CONFIRMATION_CLASS);
-              return;
-            }
-          }
-
-          removeTagAtIndex(tags.length - 1);
-        }
-      } else {
-        if (e.which === KEY_CODES.COMMA || (!allowSpacesInTags && e.which === KEY_CODES.SPACE) || e.which === KEY_CODES.ENTER) {
-          if (newTag.length > 0) {
-            if (this.addNewTag(newTag)) {
-              newTagInput.val('');
-            }
-          }
-          e.preventDefault();
-        }
-
-        this.$('.' + TAG_CLASS).removeClass(REMOVE_CONFIRMATION_CLASS);
-      }
-    });
-
-    newTagInput.on('blur', () => {
-      const newTag = newTagInput.val().trim();
-
-      if (newTag.length > 0) {
-        if (this.addNewTag(newTag)) {
-          newTagInput.val('');
-          this.dispatchKeyUp('');
-        }
-      }
-    });
-
-    newTagInput.on('keyup', (e) => {
-      this.dispatchKeyUp(e.target.value);
-    });
+    this.initEvents();
   },
 
   dispatchKeyUp(value) {
     if (this.get('onKeyUp')) {
       this.get('onKeyUp')(value);
     }
+  },
+
+  _onContainerClick() {
+    const newTagInput = this.$('.js-ember-tag-input-new');
+    const isReadOnly = this.get('readOnly');
+
+    if (!isReadOnly) {
+      newTagInput.focus();
+    }
+  },
+
+  _onInputKeyDown(e) {
+    const allowSpacesInTags = this.get('allowSpacesInTags');
+    const tags = this.get('tags');
+    const newTag = e.target.value.trim();
+
+    if (e.which === KEY_CODES.BACKSPACE) {
+      if (newTag.length === 0 && tags.length > 0) {
+        const removeTagAtIndex = this.get('removeTagAtIndex');
+
+        if (this.get('removeConfirmation')) {
+          const lastTag = this.$('.' + TAG_CLASS).last();
+
+          if (!lastTag.hasClass(REMOVE_CONFIRMATION_CLASS)) {
+            lastTag.addClass(REMOVE_CONFIRMATION_CLASS);
+            return;
+          }
+        }
+
+        removeTagAtIndex(tags.length - 1);
+      }
+    } else {
+      if (e.which === KEY_CODES.COMMA || (!allowSpacesInTags && e.which === KEY_CODES.SPACE) || e.which === KEY_CODES.ENTER) {
+        if (newTag.length > 0) {
+          if (this.addNewTag(newTag)) {
+            e.target.value = '';
+          }
+        }
+        e.preventDefault();
+      }
+
+      this.$('.' + TAG_CLASS).removeClass(REMOVE_CONFIRMATION_CLASS);
+    }
+  },
+
+  _onInputBlur(e) {
+    const newTag = e.target.value.trim();
+
+    if (newTag.length > 0) {
+      if (this.addNewTag(newTag)) {
+        e.target.value = '';
+        this.dispatchKeyUp('');
+      }
+    }
+  },
+
+  _onInputKeyUp(e) {
+    this.dispatchKeyUp(e.target.value);
+  },
+
+  initEvents() {
+    const container = this.$();
+    const onContainerClick = this._onContainerClick.bind(this);
+    const onInputKeyDown = this._onInputKeyDown.bind(this);
+    const onInputBlur = this._onInputBlur.bind(this);
+    const onInputKeyUp = this._onInputKeyUp.bind(this);
+
+    container.on('click', onContainerClick);
+    const newTagInput = this.$('.js-ember-tag-input-new');
+
+    newTagInput.on('keydown', onInputKeyDown);
+    newTagInput.on('blur', onInputBlur);
+    newTagInput.on('keyup', onInputKeyUp);
   },
 
   actions: {

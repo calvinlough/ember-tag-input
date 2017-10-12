@@ -33,6 +33,7 @@
 
 .emberTagInput-remove:before {
   content: 'x';
+  cursor: pointer;
 }
 
 .emberTagInput-input {
@@ -41,4 +42,8 @@
 }
 .emberTagInput-input:focus {
   outline: none;
+}
+
+.emberTagInput-input.is-disabled {
+  display: none;
 }

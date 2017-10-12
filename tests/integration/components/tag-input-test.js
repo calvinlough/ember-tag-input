@@ -170,7 +170,7 @@ test('Tags can contain spaces when allowSpacesInTags is set to true', function(a
 });
 
 test('Tags can\'t be added or removed in read only mode', function(assert) {
-  assert.expect(3);
+  assert.expect(5);
 
   const tags = Ember.A(['hamburger', 'cheeseburger']);
   this.set('tags', tags);
@@ -187,7 +187,11 @@ test('Tags can\'t be added or removed in read only mode', function(assert) {
 
   assert.equal($('.emberTagInput-tag').length, 2);
   assert.equal($('.emberTagInput-remove').length, 0);
-  assert.equal($('.emberTagInput-new').length, 0);
+  assert.equal($('.emberTagInput-new').length, 1);
+
+  const $input = $('.emberTagInput-new input');
+  assert.equal($input.length, 1);
+  assert.ok($input.prop('disabled'));
 });
 
 test('send input value when typing', function(assert) {
@@ -231,6 +235,81 @@ test('send input value when typing', function(assert) {
       assert.equal($('.emberTagInput-tag').length, 1);
       assert.equal($('.emberTagInput-tag').eq(0).text().trim(), 'tes');
       assert.equal(inputValue, '');
+      done();
+    });
+  });
+});
+
+test('Tags can be added after readOnly changes to false', function(assert) {
+  assert.expect(4);
+
+  const tags = Ember.A();
+
+  this.addTag = function(tag) {
+    tags.pushObject(tag);
+  };
+  this.set('tags', tags);
+  this.set('readOnly', true);
+
+  this.render(hbs`
+    {{#tag-input
+      tags=tags
+      addTag=(action addTag)
+      readOnly=readOnly
+      as |tag|
+    }}
+      {{tag}}
+    {{/tag-input}}
+  `);
+
+  const done = assert.async();
+
+  Ember.run(() => {
+    this.set('readOnly', false);
+
+    typeInInput('.js-ember-tag-input-new', 'some tag ');
+
+    Ember.run.next(() => {
+      assert.equal($('.js-ember-tag-input-new').text(), '');
+      assert.equal($('.emberTagInput-tag').length, 2);
+      assert.equal($('.emberTagInput-tag').eq(0).text().trim(), 'some');
+      assert.equal($('.emberTagInput-tag').eq(1).text().trim(), 'tag');
+      done();
+    });
+  });
+});
+
+test('Tags can\'t be added or removed after readOnly changes from false to true', function(assert) {
+  assert.expect(5);
+
+  const tags = Ember.A(['hamburger', 'cheeseburger']);
+  this.set('tags', tags);
+  this.set('readOnly', false);
+
+  this.render(hbs`
+    {{#tag-input
+      tags=tags
+      readOnly=true
+      as |tag|
+    }}
+      {{tag}}
+    {{/tag-input}}
+  `);
+
+
+  const done = assert.async();
+
+  Ember.run(() => {
+    this.set('readOnly', true);
+
+    Ember.run.next(() => {
+      assert.equal($('.emberTagInput-tag').length, 2);
+      assert.equal($('.emberTagInput-remove').length, 0);
+      assert.equal($('.emberTagInput-new').length, 1);
+
+      const $input = $('.emberTagInput-new input');
+      assert.equal($input.length, 1);
+      assert.ok($input.prop('disabled'));
       done();
     });
   });
