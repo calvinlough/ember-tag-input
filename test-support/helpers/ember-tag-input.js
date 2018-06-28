@@ -1,4 +1,5 @@
 import $ from 'jquery';
+import { run } from '@ember/runloop';
 
 export function typeInInput(selector, text) {
   text.split('').forEach((character) => {
@@ -7,12 +8,24 @@ export function typeInInput(selector, text) {
 }
 
 export function typeCharacterInInput(selector, character, eventType = 'keydown') {
-  let input = $(selector),
-    currentVal = input.val();
+  run(() => {
+    let input = $(selector),
+      currentVal = input.val();
 
-  input.val(currentVal + character);
+    input.val(currentVal + character);
 
-  let e = $.Event(eventType);
-  e.which = character.charCodeAt(0);
-  input.trigger(e);
+    let e = $.Event(eventType);
+    e.which = character.charCodeAt(0);
+    input.trigger(e);
+  })
+}
+
+export function typeBackspace(selector, eventType = 'keydown') {
+  run(() => {
+    let input = $(selector)
+
+    let e = $.Event(eventType);
+    e.which = 8
+    input.trigger(e);
+  })
 }

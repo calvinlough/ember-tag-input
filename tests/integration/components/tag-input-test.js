@@ -1,18 +1,14 @@
 import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
-import { typeInInput, typeCharacterInInput } from '../../helpers/ember-tag-input';
+import { typeInInput, typeCharacterInInput, typeBackspace } from '../../helpers/ember-tag-input';
 
 moduleForComponent('tag-input', 'Integration | Component | Ember Tag Input', {
   integration: true
 });
 
-const KEY_CODES = {
-  BACKSPACE: 8
-};
-
 test('New tags are created when delimiter characters are typed', function(assert) {
-  assert.expect(4);
+  assert.expect(6);
 
   const tags = Ember.A();
 
@@ -40,14 +36,16 @@ test('New tags are created when delimiter characters are typed', function(assert
       assert.equal($('.js-ember-tag-input-new').text(), '');
       assert.equal($('.emberTagInput-tag').length, 2);
       assert.equal($('.emberTagInput-tag').eq(0).text().trim(), 'first');
+      assert.equal($('.emberTagInput-tag').eq(0).attr('data-tag'), 'first');
       assert.equal($('.emberTagInput-tag').eq(1).text().trim(), 'second');
+      assert.equal($('.emberTagInput-tag').eq(1).attr('data-tag'), 'second');
       done();
     });
   });
 });
 
 test('New tags are created when the field is blurred', function(assert) {
-  assert.expect(3);
+  assert.expect(4);
 
   const tags = Ember.A();
 
@@ -77,13 +75,14 @@ test('New tags are created when the field is blurred', function(assert) {
       assert.equal($('.js-ember-tag-input-new').text(), '');
       assert.equal($('.emberTagInput-tag').length, 1);
       assert.equal($('.emberTagInput-tag').eq(0).text().trim(), 'blurry');
+      assert.equal($('.emberTagInput-tag').eq(0).attr('data-tag'), 'blurry');
       done();
     });
   });
 });
 
 test('Tags can be removed using the backspace key', function(assert) {
-  assert.expect(5);
+  assert.expect(6);
 
   const tags = Ember.A();
 
@@ -115,18 +114,19 @@ test('Tags can be removed using the backspace key', function(assert) {
       assert.equal($('.js-ember-tag-input-new').text(), '');
       assert.equal($('.emberTagInput-tag').length, 1);
 
-      typeCharacterInInput('.js-ember-tag-input-new', String.fromCharCode(KEY_CODES.BACKSPACE));
+      typeBackspace('.js-ember-tag-input-new'); 
 
       Ember.run.next(() => {
         assert.equal($('.emberTagInput-tag').length, 1);
-        assert.equal($('.emberTagInput-tag--remove').length, 1);
+        assert.equal($('.emberTagInput-tag--remove').length, 1, 'to remove tag is focused');
+        assert.equal($('.emberTagInput-remove').length, 1);
 
-        typeCharacterInInput('.js-ember-tag-input-new', String.fromCharCode(KEY_CODES.BACKSPACE));
+        typeBackspace('.js-ember-tag-input-new'); 
 
         Ember.run.next(() => {
           assert.equal($('.emberTagInput-tag').length, 0);
           done();
-        });
+        }, 200);
       });
     });
   });

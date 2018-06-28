@@ -1,5 +1,5 @@
 {{#each tags as |tag index|~}}
-  <li class="emberTagInput-tag">
+  <li class="emberTagInput-tag" data-tag="{{tag}}">
     {{yield tag}}
     {{#if _isRemoveButtonVisible}}
       <a class="emberTagInput-remove" {{action 'removeTag' index}}></a>
