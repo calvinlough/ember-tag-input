@@ -126,7 +126,7 @@ test('Tags can be removed using the backspace key', function(assert) {
         Ember.run.next(() => {
           assert.equal($('.emberTagInput-tag').length, 0);
           done();
-        }, 200);
+        });
       });
     });
   });
