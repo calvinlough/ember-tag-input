@@ -88,6 +88,7 @@ The above example works if your tags array is just an simple array of strings. I
 
 ### maxlength
 - If maxlength value is passed in, each `<input>` field(tag) will have maximum number of characters allowed.
+- **default: ''**
 
 ## Actions
 
