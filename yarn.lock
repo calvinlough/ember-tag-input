@@ -1185,9 +1185,13 @@ babel-plugin-htmlbars-inline-precompile@^0.2.5:
   version "0.2.6"
   resolved "https://registry.yarnpkg.com/babel-plugin-htmlbars-inline-precompile/-/babel-plugin-htmlbars-inline-precompile-0.2.6.tgz#c00b8a3f4b32ca04bf0f0d5169fcef3b5a66d69d"
 
-babel-plugin-htmlbars-inline-precompile@^2.1.0, babel-plugin-htmlbars-inline-precompile@^2.1.1:
+babel-plugin-htmlbars-inline-precompile@^2.1.0:
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/babel-plugin-htmlbars-inline-precompile/-/babel-plugin-htmlbars-inline-precompile-2.1.1.tgz#59edd4eab28d27fbafa26d51bc19795278d103a9"
+
+babel-plugin-htmlbars-inline-precompile@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/babel-plugin-htmlbars-inline-precompile/-/babel-plugin-htmlbars-inline-precompile-3.0.0.tgz#95aa0d2379347cda9a7127c028fe35cb39179fa2"
 
 babel-plugin-module-resolver@^3.1.1:
   version "3.2.0"
@@ -2739,11 +2743,11 @@ ember-cli-htmlbars-inline-precompile@^3.0.0:
     silent-error "^1.1.0"
 
 ember-cli-htmlbars@^4.0.0:
-  version "4.0.3"
-  resolved "https://registry.yarnpkg.com/ember-cli-htmlbars/-/ember-cli-htmlbars-4.0.3.tgz#171a23aa12d0af5289fb5c298bc235404aed289e"
+  version "4.0.5"
+  resolved "https://registry.yarnpkg.com/ember-cli-htmlbars/-/ember-cli-htmlbars-4.0.5.tgz#0ad521831c2d740502ffd9b0bd28d2d799752f63"
   dependencies:
     "@ember/edition-utils" "^1.1.1"
-    babel-plugin-htmlbars-inline-precompile "^2.1.1"
+    babel-plugin-htmlbars-inline-precompile "^3.0.0"
     broccoli-debug "^0.6.5"
     broccoli-persistent-filter "^2.3.1"
     broccoli-plugin "^3.0.0"
