@@ -19,7 +19,7 @@
     "ember-cli-test-loader": "^2.1.0",
     "ember-cli-uglify": "^3.0.0",
     "ember-load-initializers": "^2.1.0",
-    "ember-resolver": "^6.0.0",
+    "ember-resolver": "^7.0.0",
     "ember-source": "^2.14.1",
     "loader.js": "^4.6.0",
     "phantomjs-prebuilt": "^2.1.15"
