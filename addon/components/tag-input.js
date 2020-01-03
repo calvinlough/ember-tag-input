@@ -74,7 +74,8 @@ export default Component.extend({
   _onInputKeyDown(e) {
     const allowSpacesInTags = this.get('allowSpacesInTags');
     const tags = this.get('tags');
-    const newTag = e.target.value.trim();
+    const backspaceRegex = new RegExp(String.fromCharCode(KEY_CODES.BACKSPACE), 'g');
+    const newTag = e.target.value.trim().replace(backspaceRegex, '');
 
     if (e.which === KEY_CODES.BACKSPACE) {
       if (newTag.length === 0 && tags.length > 0) {
