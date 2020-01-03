@@ -22,6 +22,7 @@
     "ember-resolver": "^6.0.0",
     "ember-source": "^2.14.1",
     "ember-source-channel-url": "^2.0.1",
+    "ember-try": "^1.4.0",
     "loader.js": "^4.6.0",
     "phantomjs-prebuilt": "^2.1.15"
   },
