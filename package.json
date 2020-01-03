@@ -11,6 +11,7 @@
   "devDependencies": {
     "broccoli-asset-rev": "^3.0.0",
     "ember-cli": "^3.15.1",
+    "ember-cli-eslint": "^5.1.0",
     "ember-cli-htmlbars-inline-precompile": "^3.0.0",
     "ember-cli-inject-live-reload": "^2.0.1",
     "ember-cli-qunit": "^4.0.0",
@@ -20,14 +21,13 @@
     "ember-load-initializers": "^2.1.0",
     "ember-resolver": "^6.0.0",
     "ember-source": "^2.14.1",
+    "ember-source-channel-url": "^2.0.1",
     "loader.js": "^4.6.0",
     "phantomjs-prebuilt": "^2.1.15"
   },
   "dependencies": {
     "ember-cli-babel": "^7.11.0",
-    "ember-cli-eslint": "^5.1.0",
-    "ember-cli-htmlbars": "^4.0.0",
-    "ember-source-channel-url": "^2.0.1"
+    "ember-cli-htmlbars": "^4.0.0"
   },
   "engines": {
     "node": ">= 0.12.0"
