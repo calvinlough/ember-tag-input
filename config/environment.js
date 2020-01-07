@@ -1,6 +1,13 @@
-/*jshint node:true*/
 'use strict';
 
-module.exports = function(/* environment, appConfig */) {
-  return { };
-};
+module.exports = function(env) {
+  let ENV = {
+    APP: {}
+  };
+
+  if (env === 'test') {
+    ENV.APP.autoboot = false;
+  }
+
+  return ENV;
+}

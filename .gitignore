@@ -14,3 +14,7 @@
 /libpeerconnection.log
 npm-debug.log*
 testem.log
+
+.node_modules.ember-try/
+package.json.ember-try
+yarn.lock.ember-try
