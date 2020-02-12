@@ -1,6 +1,5 @@
 import Ember from 'ember';
 import layout from '../templates/components/tag-input';
-import $ from 'jquery';
 
 const { Component, computed } = Ember;
 
@@ -64,7 +63,7 @@ export default Component.extend({
   },
 
   _onContainerClick() {
-    const newTagInput = $('.js-ember-tag-input-new', this.element);
+    const newTagInput = this.element.querySelector('.js-ember-tag-input-new');
     const isReadOnly = this.get('readOnly');
 
     if (!isReadOnly) {
@@ -83,10 +82,11 @@ export default Component.extend({
         const removeTagAtIndex = this.get('removeTagAtIndex');
 
         if (this.get('removeConfirmation')) {
-          const lastTag = $('.' + TAG_CLASS, this.element).last();
+          const tags = this.element.querySelectorAll('.' + TAG_CLASS)
+          const lastTag = tags[tags.length - 1];
 
-          if (!lastTag.hasClass(REMOVE_CONFIRMATION_CLASS)) {
-            lastTag.addClass(REMOVE_CONFIRMATION_CLASS);
+          if (lastTag && !lastTag.classList.contains(REMOVE_CONFIRMATION_CLASS)) {
+            lastTag.classList.add(REMOVE_CONFIRMATION_CLASS);
             return;
           }
         }
@@ -103,7 +103,9 @@ export default Component.extend({
         e.preventDefault();
       }
 
-      $('.' + TAG_CLASS, this.element).removeClass(REMOVE_CONFIRMATION_CLASS);
+      [].forEach.call(this.element.querySelector('.' + TAG_CLASS), function(tagEl) {
+        tagEl.classList.remove(REMOVE_CONFIRMATION_CLASS);
+      });
     }
   },
 
@@ -123,18 +125,18 @@ export default Component.extend({
   },
 
   initEvents() {
-    const container = $(this.element);
+    const container = this.element;
     const onContainerClick = this._onContainerClick.bind(this);
     const onInputKeyDown = this._onInputKeyDown.bind(this);
     const onInputBlur = this._onInputBlur.bind(this);
     const onInputKeyUp = this._onInputKeyUp.bind(this);
 
-    container.on('click', onContainerClick);
-    const newTagInput = $('.js-ember-tag-input-new', this.element);
+    container.addEventListener('click', onContainerClick);
+    const newTagInput = this.element.querySelector('.js-ember-tag-input-new');
 
-    newTagInput.on('keydown', onInputKeyDown);
-    newTagInput.on('blur', onInputBlur);
-    newTagInput.on('keyup', onInputKeyUp);
+    newTagInput.addEventListener('keydown', onInputKeyDown);
+    newTagInput.addEventListener('blur', onInputBlur);
+    newTagInput.addEventListener('keyup', onInputKeyUp);
   },
 
   actions: {
