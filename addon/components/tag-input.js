@@ -125,18 +125,40 @@ export default Component.extend({
   },
 
   initEvents() {
-    const container = this.element;
     const onContainerClick = this._onContainerClick.bind(this);
     const onInputKeyDown = this._onInputKeyDown.bind(this);
     const onInputBlur = this._onInputBlur.bind(this);
     const onInputKeyUp = this._onInputKeyUp.bind(this);
-
+    
+    const container = this.element;
     container.addEventListener('click', onContainerClick);
-    const newTagInput = this.element.querySelector('.js-ember-tag-input-new');
 
+    const newTagInput = this.element.querySelector('.js-ember-tag-input-new');
     newTagInput.addEventListener('keydown', onInputKeyDown);
     newTagInput.addEventListener('blur', onInputBlur);
     newTagInput.addEventListener('keyup', onInputKeyUp);
+
+    this.onContainerClick = this._onContainerClick;
+    this.onInputKeyDown = this._onInputKeyUp;
+    this.onInputBlur = this._onInputBlur;
+    this.onInputKeyUp = this._onInputKeyUp;
+  },
+
+  willDestroyElement() {
+    this._super(...arguments);
+
+    // Removed before could setup
+    if (!this.onContainerClick) {
+      return;
+    }
+
+    const container = this.element;
+    container.removeEventListener('click', this.onContainerClick);
+
+    const newTagInput = this.element.querySelector('.js-ember-tag-input-new');
+    newTagInput.removeEventListener('keydown', this.onInputKeyDown);
+    newTagInput.removeEventListener('blur', this.onInputBlur);
+    newTagInput.removeEventListener('keyup', this.onInputKeyUp);
   },
 
   actions: {
