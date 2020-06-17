@@ -72,40 +72,42 @@ export default Component.extend({
   },
 
   _onInputKeyDown(e) {
-    const allowSpacesInTags = this.get('allowSpacesInTags');
-    const tags = this.get('tags');
-    const backspaceRegex = new RegExp(String.fromCharCode(KEY_CODES.BACKSPACE), 'g');
-    const newTag = e.target.value.trim().replace(backspaceRegex, '');
+    if(!this.readOnly) {
+      const allowSpacesInTags = this.get('allowSpacesInTags');
+      const tags = this.get('tags');
+      const backspaceRegex = new RegExp(String.fromCharCode(KEY_CODES.BACKSPACE), 'g');
+      const newTag = e.target.value.trim().replace(backspaceRegex, '');
 
-    if (e.which === KEY_CODES.BACKSPACE) {
-      if (newTag.length === 0 && tags.length > 0) {
-        const removeTagAtIndex = this.get('removeTagAtIndex');
+      if (e.which === KEY_CODES.BACKSPACE) {
+        if (newTag.length === 0 && tags.length > 0) {
+          const removeTagAtIndex = this.get('removeTagAtIndex');
 
-        if (this.get('removeConfirmation')) {
-          const tags = this.element.querySelectorAll('.' + TAG_CLASS)
-          const lastTag = tags[tags.length - 1];
+          if (this.get('removeConfirmation')) {
+            const tags = this.element.querySelectorAll('.' + TAG_CLASS)
+            const lastTag = tags[tags.length - 1];
 
-          if (lastTag && !lastTag.classList.contains(REMOVE_CONFIRMATION_CLASS)) {
-            lastTag.classList.add(REMOVE_CONFIRMATION_CLASS);
-            return;
+            if (lastTag && !lastTag.classList.contains(REMOVE_CONFIRMATION_CLASS)) {
+              lastTag.classList.add(REMOVE_CONFIRMATION_CLASS);
+              return;
+            }
           }
+
+          removeTagAtIndex(tags.length - 1);
+        }
+      } else {
+        if (e.which === KEY_CODES.COMMA || (!allowSpacesInTags && e.which === KEY_CODES.SPACE) || e.which === KEY_CODES.ENTER) {
+          if (newTag.length > 0) {
+            if (this.addNewTag(newTag)) {
+              e.target.value = '';
+            }
+          }
+          e.preventDefault();
         }
 
-        removeTagAtIndex(tags.length - 1);
+        [].forEach.call(this.element.querySelectorAll('.' + TAG_CLASS), function(tagEl) {
+          tagEl.classList.remove(REMOVE_CONFIRMATION_CLASS);
+        });
       }
-    } else {
-      if (e.which === KEY_CODES.COMMA || (!allowSpacesInTags && e.which === KEY_CODES.SPACE) || e.which === KEY_CODES.ENTER) {
-        if (newTag.length > 0) {
-          if (this.addNewTag(newTag)) {
-            e.target.value = '';
-          }
-        }
-        e.preventDefault();
-      }
-
-      [].forEach.call(this.element.querySelectorAll('.' + TAG_CLASS), function(tagEl) {
-        tagEl.classList.remove(REMOVE_CONFIRMATION_CLASS);
-      });
     }
   },
 
