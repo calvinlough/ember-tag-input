@@ -72,7 +72,7 @@ export default Component.extend({
   },
 
   _onInputKeyDown(e) {
-    if(!this.readOnly) {
+    if (!this.readOnly) {
       const allowSpacesInTags = this.get('allowSpacesInTags');
       const tags = this.get('tags');
       const backspaceRegex = new RegExp(String.fromCharCode(KEY_CODES.BACKSPACE), 'g');

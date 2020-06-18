@@ -7,6 +7,10 @@ import hbs from 'htmlbars-inline-precompile';
 module('tag-input', 'Integration | Component | Ember Tag Input', function(hooks) {
   setupRenderingTest(hooks);
 
+  const KEY_CODES = {
+    BACKSPACE: 8
+  };
+
   test('New tags are created when delimiter characters are typed', async function(assert) {
     assert.expect(4);
 
@@ -78,10 +82,10 @@ module('tag-input', 'Integration | Component | Ember Tag Input', function(hooks)
 
     await render(hbs`
       <TagInput 
-      @tags={{tags}}
-      @addTag={{this.addTag}}
-      @removeTagAtIndex={{this.removeTagAtIndex}}
-      as |tag|>
+        @tags={{tags}}
+        @addTag={{this.addTag}}
+        @removeTagAtIndex={{this.removeTagAtIndex}}
+        as |tag|>
         {{tag}}
       </TagInput>
     `);
@@ -91,12 +95,12 @@ module('tag-input', 'Integration | Component | Ember Tag Input', function(hooks)
     assert.equal(find('.js-ember-tag-input-new').textContent.trim(), '');
     assert.equal(findAll('.emberTagInput-tag').length, 1);
 
-    await triggerKeyEvent(find('.js-ember-tag-input-new'), 'keydown', 8); //First keypress highlights the tag for deletion
+    await triggerKeyEvent(find('.js-ember-tag-input-new'), 'keydown', KEY_CODES.BACKSPACE); //First keypress highlights the tag for deletion
 
     assert.equal(find('.js-ember-tag-input-new').textContent.trim(), '');
     assert.equal(findAll('.emberTagInput-tag').length, 1);
 
-    await triggerKeyEvent(find('.js-ember-tag-input-new'), 'keydown', 8); //Second keypress deletes the tag
+    await triggerKeyEvent(find('.js-ember-tag-input-new'), 'keydown', KEY_CODES.BACKSPACE); //Second keypress deletes the tag
 
     assert.equal(findAll('.emberTagInput-tag').length, 0);
   });
@@ -261,8 +265,8 @@ module('tag-input', 'Integration | Component | Ember Tag Input', function(hooks)
 
     //Try deleting 
 
-    await triggerKeyEvent(find('.js-ember-tag-input-new'), 'keydown', 8); 
-    await triggerKeyEvent(find('.js-ember-tag-input-new'), 'keydown', 8); 
+    await triggerKeyEvent(find('.js-ember-tag-input-new'), 'keydown', KEY_CODES.BACKSPACE); 
+    await triggerKeyEvent(find('.js-ember-tag-input-new'), 'keydown', KEY_CODES.BACKSPACE); 
 
     assert.equal(findAll('.emberTagInput-tag').length, 2);
   });
