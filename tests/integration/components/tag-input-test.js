@@ -1,16 +1,15 @@
 import Ember from 'ember';
 import { setupRenderingTest } from 'ember-qunit';
 import { module, test } from 'qunit';
-import { render } from '@ember/test-helpers';
+import { render, find, typeIn, findAll, blur, triggerKeyEvent } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
-import { typeInInput, typeCharacterInInput } from '../../helpers/ember-tag-input';
-
-const KEY_CODES = {
-  BACKSPACE: 8
-};
 
 module('tag-input', 'Integration | Component | Ember Tag Input', function(hooks) {
   setupRenderingTest(hooks);
+
+  const KEY_CODES = {
+    BACKSPACE: 8
+  };
 
   test('New tags are created when delimiter characters are typed', async function(assert) {
     assert.expect(4);
@@ -20,31 +19,24 @@ module('tag-input', 'Integration | Component | Ember Tag Input', function(hooks)
     this.addTag = function(tag) {
       tags.pushObject(tag);
     };
+
     this.set('tags', tags);
 
     await render(hbs`
-      {{#tag-input
-        tags=tags
-        addTag=(action addTag)
-        as |tag|
-      }}
+      <TagInput 
+        @tags={{tags}}
+        @addTag={{this.addTag}}
+        as |tag|>
         {{tag}}
-      {{/tag-input}}
+      </TagInput>
     `);
 
-    const done = assert.async();
+    await typeIn(find('.js-ember-tag-input-new'), 'first second ');
 
-    Ember.run(() => {
-      typeInInput('.js-ember-tag-input-new', 'first second ');
-
-      Ember.run.next(() => {
-        assert.equal($('.js-ember-tag-input-new').text(), '');
-        assert.equal($('.emberTagInput-tag').length, 2);
-        assert.equal($('.emberTagInput-tag').eq(0).text().trim(), 'first');
-        assert.equal($('.emberTagInput-tag').eq(1).text().trim(), 'second');
-        done();
-      });
-    });
+    assert.equal(find('.js-ember-tag-input-new').textContent.trim(), '');
+    assert.equal(findAll('.emberTagInput-tag').length, 2);
+    assert.equal(findAll('.emberTagInput-tag').firstObject.textContent.trim(), 'first');
+    assert.equal(findAll('.emberTagInput-tag').lastObject.textContent.trim(), 'second');
   });
 
   test('New tags are created when the field is blurred', async function(assert) {
@@ -58,29 +50,20 @@ module('tag-input', 'Integration | Component | Ember Tag Input', function(hooks)
     this.set('tags', tags);
 
     await render(hbs`
-      {{#tag-input
-        tags=tags
-        addTag=(action addTag)
-        as |tag|
-      }}
+      <TagInput 
+        @tags={{tags}}
+        @addTag={{this.addTag}}
+        as |tag|>
         {{tag}}
-      {{/tag-input}}
+      </TagInput>
     `);
 
-    const done = assert.async();
+    await typeIn(find('.js-ember-tag-input-new'), 'blurry');
+    await blur(find('.js-ember-tag-input-new'));
 
-    Ember.run(() => {
-      typeInInput('.js-ember-tag-input-new', 'blurry');
-
-      $('.js-ember-tag-input-new').blur();
-
-      Ember.run.next(() => {
-        assert.equal($('.js-ember-tag-input-new').text(), '');
-        assert.equal($('.emberTagInput-tag').length, 1);
-        assert.equal($('.emberTagInput-tag').eq(0).text().trim(), 'blurry');
-        done();
-      });
-    });
+    assert.equal(find('.js-ember-tag-input-new').textContent.trim(), '');
+    assert.equal(findAll('.emberTagInput-tag').length, 1);
+    assert.equal(findAll('.emberTagInput-tag').firstObject.textContent.trim(), 'blurry');
   });
 
   test('Tags can be removed using the backspace key', async function(assert) {
@@ -91,46 +74,35 @@ module('tag-input', 'Integration | Component | Ember Tag Input', function(hooks)
     this.addTag = function(tag) {
       tags.pushObject(tag);
     };
+
     this.removeTagAtIndex = function(index) {
       tags.removeAt(index);
     };
     this.set('tags', tags);
 
     await render(hbs`
-      {{#tag-input
-        tags=tags
-        addTag=(action addTag)
-        removeTagAtIndex=(action removeTagAtIndex)
-        as |tag|
-      }}
+      <TagInput 
+        @tags={{tags}}
+        @addTag={{this.addTag}}
+        @removeTagAtIndex={{this.removeTagAtIndex}}
+        as |tag|>
         {{tag}}
-      {{/tag-input}}
+      </TagInput>
     `);
 
-    const done = assert.async();
+    await typeIn(find('.js-ember-tag-input-new'), 'removeme ');
 
-    Ember.run(() => {
-      typeInInput('.js-ember-tag-input-new', 'removeme ');
+    assert.equal(find('.js-ember-tag-input-new').textContent.trim(), '');
+    assert.equal(findAll('.emberTagInput-tag').length, 1);
 
-      Ember.run.next(() => {
-        assert.equal($('.js-ember-tag-input-new').text(), '');
-        assert.equal($('.emberTagInput-tag').length, 1);
+    await triggerKeyEvent(find('.js-ember-tag-input-new'), 'keydown', KEY_CODES.BACKSPACE); //First keypress highlights the tag for deletion
 
-        typeCharacterInInput('.js-ember-tag-input-new', String.fromCharCode(KEY_CODES.BACKSPACE));
+    assert.equal(find('.js-ember-tag-input-new').textContent.trim(), '');
+    assert.equal(findAll('.emberTagInput-tag').length, 1);
 
-        Ember.run.next(() => {
-          assert.equal($('.emberTagInput-tag').length, 1);
-          assert.equal($('.emberTagInput-tag--remove').length, 1);
+    await triggerKeyEvent(find('.js-ember-tag-input-new'), 'keydown', KEY_CODES.BACKSPACE); //Second keypress deletes the tag
 
-          typeCharacterInInput('.js-ember-tag-input-new', String.fromCharCode(KEY_CODES.BACKSPACE));
-
-          Ember.run.next(() => {
-            assert.equal($('.emberTagInput-tag').length, 0);
-            done();
-          });
-        });
-      });
-    });
+    assert.equal(findAll('.emberTagInput-tag').length, 0);
   });
 
   test('Tags can contain spaces when allowSpacesInTags is set to true', async function(assert) {
@@ -144,30 +116,21 @@ module('tag-input', 'Integration | Component | Ember Tag Input', function(hooks)
     this.set('tags', tags);
 
     await render(hbs`
-      {{#tag-input
-        tags=tags
-        addTag=(action addTag)
-        allowSpacesInTags=true
-        as |tag|
-      }}
+      <TagInput 
+        @tags={{tags}}
+        @addTag={{this.addTag}}
+        @allowSpacesInTags={{true}}
+        as |tag|>
         {{tag}}
-      {{/tag-input}}
+      </TagInput>
     `);
 
-    const done = assert.async();
+    await typeIn(find('.js-ember-tag-input-new'), 'multiple words rock');
+    await blur(find('.js-ember-tag-input-new'));
 
-    Ember.run(() => {
-      typeInInput('.js-ember-tag-input-new', 'multiple words rock');
-
-      $('.js-ember-tag-input-new').blur();
-
-      Ember.run.next(() => {
-        assert.equal($('.js-ember-tag-input-new').text(), '');
-        assert.equal($('.emberTagInput-tag').length, 1);
-        assert.equal($('.emberTagInput-tag').eq(0).text().trim(), 'multiple words rock');
-        done();
-      });
-    });
+    assert.equal(find('.js-ember-tag-input-new').textContent.trim(), '');
+    assert.equal(findAll('.emberTagInput-tag').length, 1);
+    assert.equal(findAll('.emberTagInput-tag').firstObject.textContent.trim(), 'multiple words rock');
   });
 
   test('Tags can\'t be added or removed in read only mode', async function(assert) {
@@ -177,22 +140,19 @@ module('tag-input', 'Integration | Component | Ember Tag Input', function(hooks)
     this.set('tags', tags);
 
     await render(hbs`
-      {{#tag-input
-        tags=tags
-        readOnly=true
-        as |tag|
-      }}
+      <TagInput 
+        @tags={{tags}}
+        @readOnly={{true}}
+        as |tag|>
         {{tag}}
-      {{/tag-input}}
+      </TagInput>
     `);
 
-    assert.equal($('.emberTagInput-tag').length, 2);
-    assert.equal($('.emberTagInput-remove').length, 0);
-    assert.equal($('.emberTagInput-new').length, 1);
-
-    const $input = $('.emberTagInput-new input');
-    assert.equal($input.length, 1);
-    assert.ok($input.prop('disabled'));
+    assert.equal(findAll('.emberTagInput-tag').length, 2);
+    assert.equal(findAll('.emberTagInput-remove').length, 0);
+    assert.equal(findAll('.emberTagInput-new').length, 1);
+    assert.equal(find('input').textContent.length, 0);
+    assert.ok(find('input').disabled);
   });
 
   test('send input value when typing', async function(assert) {
@@ -211,34 +171,26 @@ module('tag-input', 'Integration | Component | Ember Tag Input', function(hooks)
     };
 
     await render(hbs`
-      {{#tag-input
-        tags=tags
-        addTag=(action addTag)
-        onKeyUp=(action onKeyUp)
-        as |tag|
-      }}
-        {{tag}}
-      {{/tag-input}}
-    `);
+    <TagInput 
+      @tags={{tags}}
+      @addTag={{this.addTag}}
+      @onKeyUp={{this.onKeyUp}}
+      as |tag|>
+      {{tag}}
+    </TagInput>
+  `);
 
-    const done = assert.async();
+  await typeIn(find('.js-ember-tag-input-new'), 't');
+  assert.equal(inputValue, 't');
+  await typeIn(find('.js-ember-tag-input-new'), 'e');
+  assert.equal(inputValue, 'te');
+  await typeIn(find('.js-ember-tag-input-new'), 's');
+  assert.equal(inputValue, 'tes');
+  await blur(find('.js-ember-tag-input-new'));
 
-    Ember.run(() => {
-      typeCharacterInInput('.js-ember-tag-input-new', 't', 'keyup');
-      assert.equal(inputValue, 't');
-      typeCharacterInInput('.js-ember-tag-input-new', 'e', 'keyup');
-      assert.equal(inputValue, 'te');
-      typeCharacterInInput('.js-ember-tag-input-new', 's', 'keyup');
-      assert.equal(inputValue, 'tes');
-      $('.js-ember-tag-input-new').blur();
-
-      Ember.run.next(() => {
-        assert.equal($('.emberTagInput-tag').length, 1);
-        assert.equal($('.emberTagInput-tag').eq(0).text().trim(), 'tes');
-        assert.equal(inputValue, '');
-        done();
-      });
-    });
+  assert.equal(findAll('.emberTagInput-tag').length, 1);
+  assert.equal(findAll('.emberTagInput-tag').firstObject.textContent.trim(), 'tes');
+  assert.equal(inputValue, '');
   });
 
   test('Tags can be added after readOnly changes to false', async function(assert) {
@@ -249,69 +201,73 @@ module('tag-input', 'Integration | Component | Ember Tag Input', function(hooks)
     this.addTag = function(tag) {
       tags.pushObject(tag);
     };
+
     this.set('tags', tags);
     this.set('readOnly', true);
 
     await render(hbs`
-      {{#tag-input
-        tags=tags
-        addTag=(action addTag)
-        readOnly=readOnly
-        as |tag|
-      }}
+      <TagInput 
+        @tags={{tags}}
+        @addTag={{this.addTag}}
+        @readOnly={{readOnly}}
+        as |tag|>
         {{tag}}
-      {{/tag-input}}
+      </TagInput>
     `);
 
-    const done = assert.async();
+    assert.ok(find('input').disabled);
 
-    Ember.run(() => {
-      this.set('readOnly', false);
+    await this.set('readOnly', false);
 
-      typeInInput('.js-ember-tag-input-new', 'some tag ');
+    await typeIn(find('.js-ember-tag-input-new'), 'some tag ');
 
-      Ember.run.next(() => {
-        assert.equal($('.js-ember-tag-input-new').text(), '');
-        assert.equal($('.emberTagInput-tag').length, 2);
-        assert.equal($('.emberTagInput-tag').eq(0).text().trim(), 'some');
-        assert.equal($('.emberTagInput-tag').eq(1).text().trim(), 'tag');
-        done();
-      });
-    });
+    assert.equal(findAll('.emberTagInput-tag').length, 2);
+    assert.equal(findAll('.emberTagInput-tag').firstObject.textContent.trim(), 'some');
+    assert.equal(findAll('.emberTagInput-tag').lastObject.textContent.trim(), 'tag');
   });
 
   test('Tags can\'t be added or removed after readOnly changes from false to true', async function(assert) {
-    assert.expect(5);
+    assert.expect(3);
 
     const tags = Ember.A(['hamburger', 'cheeseburger']);
+
     this.set('tags', tags);
     this.set('readOnly', false);
 
+    this.removeTagAtIndex = function(index) {
+      tags.removeAt(index);
+    };
+
+    this.addTag = function(tag) {
+      tags.pushObject(tag);
+    };
+
     await render(hbs`
-      {{#tag-input
-        tags=tags
-        readOnly=true
-        as |tag|
-      }}
+      <TagInput 
+        @tags={{tags}}
+        @addTag={{this.addTag}}
+        @readOnly={{readOnly}}
+        @removeTagAtIndex={{this.removeTagAtIndex}}
+        as |tag|>
         {{tag}}
-      {{/tag-input}}
+      </TagInput>
     `);
 
-    const done = assert.async();
+    await this.set('readOnly', true);
 
-    Ember.run(() => {
-      this.set('readOnly', true);
+    assert.ok(find('input').disabled);
 
-      Ember.run.next(() => {
-        assert.equal($('.emberTagInput-tag').length, 2);
-        assert.equal($('.emberTagInput-remove').length, 0);
-        assert.equal($('.emberTagInput-new').length, 1);
+    //try adding new tags
 
-        const $input = $('.emberTagInput-new input');
-        assert.equal($input.length, 1);
-        assert.ok($input.prop('disabled'));
-        done();
-      });
-    });
+    await typeIn(find('.js-ember-tag-input-new'), 'some tag ');
+
+    assert.equal(findAll('.emberTagInput-tag').length, 2);
+
+    //Try deleting 
+
+    await triggerKeyEvent(find('.js-ember-tag-input-new'), 'keydown', KEY_CODES.BACKSPACE); 
+    await triggerKeyEvent(find('.js-ember-tag-input-new'), 'keydown', KEY_CODES.BACKSPACE); 
+
+    assert.equal(findAll('.emberTagInput-tag').length, 2);
   });
 });

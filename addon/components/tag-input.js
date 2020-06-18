@@ -1,6 +1,5 @@
 import Ember from 'ember';
 import layout from '../templates/components/tag-input';
-import $ from 'jquery';
 
 const { Component, computed } = Ember;
 
@@ -64,7 +63,7 @@ export default Component.extend({
   },
 
   _onContainerClick() {
-    const newTagInput = $('.js-ember-tag-input-new', this.element);
+    const newTagInput = this.element.querySelector('.js-ember-tag-input-new');
     const isReadOnly = this.get('readOnly');
 
     if (!isReadOnly) {
@@ -73,37 +72,42 @@ export default Component.extend({
   },
 
   _onInputKeyDown(e) {
-    const allowSpacesInTags = this.get('allowSpacesInTags');
-    const tags = this.get('tags');
-    const backspaceRegex = new RegExp(String.fromCharCode(KEY_CODES.BACKSPACE), 'g');
-    const newTag = e.target.value.trim().replace(backspaceRegex, '');
+    if (!this.readOnly) {
+      const allowSpacesInTags = this.get('allowSpacesInTags');
+      const tags = this.get('tags');
+      const backspaceRegex = new RegExp(String.fromCharCode(KEY_CODES.BACKSPACE), 'g');
+      const newTag = e.target.value.trim().replace(backspaceRegex, '');
 
-    if (e.which === KEY_CODES.BACKSPACE) {
-      if (newTag.length === 0 && tags.length > 0) {
-        const removeTagAtIndex = this.get('removeTagAtIndex');
+      if (e.which === KEY_CODES.BACKSPACE) {
+        if (newTag.length === 0 && tags.length > 0) {
+          const removeTagAtIndex = this.get('removeTagAtIndex');
 
-        if (this.get('removeConfirmation')) {
-          const lastTag = $('.' + TAG_CLASS, this.element).last();
+          if (this.get('removeConfirmation')) {
+            const tags = this.element.querySelectorAll('.' + TAG_CLASS)
+            const lastTag = tags[tags.length - 1];
 
-          if (!lastTag.hasClass(REMOVE_CONFIRMATION_CLASS)) {
-            lastTag.addClass(REMOVE_CONFIRMATION_CLASS);
-            return;
+            if (lastTag && !lastTag.classList.contains(REMOVE_CONFIRMATION_CLASS)) {
+              lastTag.classList.add(REMOVE_CONFIRMATION_CLASS);
+              return;
+            }
           }
+
+          removeTagAtIndex(tags.length - 1);
+        }
+      } else {
+        if (e.which === KEY_CODES.COMMA || (!allowSpacesInTags && e.which === KEY_CODES.SPACE) || e.which === KEY_CODES.ENTER) {
+          if (newTag.length > 0) {
+            if (this.addNewTag(newTag)) {
+              e.target.value = '';
+            }
+          }
+          e.preventDefault();
         }
 
-        removeTagAtIndex(tags.length - 1);
+        [].forEach.call(this.element.querySelectorAll('.' + TAG_CLASS), function(tagEl) {
+          tagEl.classList.remove(REMOVE_CONFIRMATION_CLASS);
+        });
       }
-    } else {
-      if (e.which === KEY_CODES.COMMA || (!allowSpacesInTags && e.which === KEY_CODES.SPACE) || e.which === KEY_CODES.ENTER) {
-        if (newTag.length > 0) {
-          if (this.addNewTag(newTag)) {
-            e.target.value = '';
-          }
-        }
-        e.preventDefault();
-      }
-
-      $('.' + TAG_CLASS, this.element).removeClass(REMOVE_CONFIRMATION_CLASS);
     }
   },
 
@@ -123,18 +127,18 @@ export default Component.extend({
   },
 
   initEvents() {
-    const container = $(this.element);
+    const container = this.element;
     const onContainerClick = this._onContainerClick.bind(this);
     const onInputKeyDown = this._onInputKeyDown.bind(this);
     const onInputBlur = this._onInputBlur.bind(this);
     const onInputKeyUp = this._onInputKeyUp.bind(this);
 
-    container.on('click', onContainerClick);
-    const newTagInput = $('.js-ember-tag-input-new', this.element);
+    container.addEventListener('click', onContainerClick);
+    const newTagInput = this.element.querySelector('.js-ember-tag-input-new');
 
-    newTagInput.on('keydown', onInputKeyDown);
-    newTagInput.on('blur', onInputBlur);
-    newTagInput.on('keyup', onInputKeyUp);
+    newTagInput.addEventListener('keydown', onInputKeyDown);
+    newTagInput.addEventListener('blur', onInputBlur);
+    newTagInput.addEventListener('keyup', onInputKeyUp);
   },
 
   actions: {
