@@ -3793,9 +3793,9 @@ ember-cli-htmlbars-inline-precompile@^2.1.0:
     silent-error "^1.1.0"
 
 ember-cli-htmlbars@^4.2.0:
-  version "4.4.0"
-  resolved "https://registry.yarnpkg.com/ember-cli-htmlbars/-/ember-cli-htmlbars-4.4.0.tgz#7ca17d5ca8f7550984346d9e6e93da0c3323f8d9"
-  integrity sha512-ohgctqk7dXIZR4TgN0xRoUYltWhghFJgqmtuswQTpZ7p74RxI9PKx+E8WV/95mGcPzraesvMNBg5utQNvcqgNg==
+  version "4.4.1"
+  resolved "https://registry.yarnpkg.com/ember-cli-htmlbars/-/ember-cli-htmlbars-4.4.1.tgz#838ca42071bb38aead41204c87340c2fba18ebb5"
+  integrity sha512-ESXk6lJDK4ua71b8/d8FFK9qKd4Bfdi0hNyNSJ/Z6g8ZgO2SwZ7NMHfzgMRgqD+E2n2TGXA6xk0qLTDxbqq51w==
   dependencies:
     "@ember/edition-utils" "^1.2.0"
     babel-plugin-htmlbars-inline-precompile "^3.2.0"
