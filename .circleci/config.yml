@@ -3,13 +3,13 @@ orbs:
   node: circleci/node@4.3.0
 jobs:
   test:
-    docker:
-      - image: 'cimg/base:stable'
+    executor:
+      name: node/default
+      tag: '14'
     steps:
       - checkout
-      - node/install:
-          install-yarn: true
-      - run: yarn
+      - node/install-packages:
+          pkg-manager: yarn
       - run: node_modules/.bin/ember test
 workflows:
   tests:
