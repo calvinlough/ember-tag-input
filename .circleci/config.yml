@@ -10,7 +10,7 @@ jobs:
       - checkout
       - node/install-packages:
           pkg-manager: yarn
-      - run: ./node_modules/.bin/ember test
+      - run: JOBS=1 ./node_modules/.bin/ember test
 workflows:
   tests:
     jobs:
