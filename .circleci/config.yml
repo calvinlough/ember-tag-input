@@ -1,0 +1,14 @@
+version: 2.1
+orbs:
+  node: circleci/node@3.0.0
+jobs:
+  test:
+    docker:
+      - image: circleci/node:6-browsers
+    steps:
+      - checkout
+      - run: node_modules/.bin/ember test
+workflows:
+  tests:
+    jobs:
+      - test
