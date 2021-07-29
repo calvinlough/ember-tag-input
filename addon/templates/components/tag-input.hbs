@@ -8,10 +8,11 @@
 {{~/each~}}
 
 <li class="emberTagInput-new">
-  {{input
-    disabled=readOnly
-    class=(concat 'emberTagInput-input js-ember-tag-input-new' (if readOnly ' is-disabled'))
-    maxlength=maxlength
-    placeholder=placeholder
-  }}
+  <input
+    disabled={{this.readOnly}}
+    class={{concat 'emberTagInput-input js-ember-tag-input-new' (if readOnly ' is-disabled')}}
+    maxlength={{this.maxlength}}
+    placeholder={{this.placeholder}}
+    aria-label={{this.ariaLabel}}
+  />
 </li>

@@ -34,6 +34,7 @@ export default Component.extend({
 
   placeholder: '',
 
+  ariaLabel: '',
   _isRemoveButtonVisible: computed('showRemoveButtons', 'readOnly', function() {
     return this.get('showRemoveButtons') && !this.get('readOnly');
   }),
