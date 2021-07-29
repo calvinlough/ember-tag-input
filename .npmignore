@@ -14,6 +14,8 @@
 /.gitignore
 /.watchmanconfig
 /.travis.yml
+/.circleci/
+/.github/
 /bower.json
 /config/ember-try.js
 /ember-cli-build.js
