@@ -8,16 +8,4 @@ updates:
   open-pull-requests-limit: 10
   ignore:
   - dependency-name: ember-cli-htmlbars
-    versions:
-    - ">= 5.a, < 6"
-  - dependency-name: ember-cli
-    versions:
-    - 3.25.3
-    - 3.26.0
-  - dependency-name: ember-source
-    versions:
-    - 3.26.0
   - dependency-name: ember-cli-babel
-    versions:
-    - 7.23.1
-    - 7.26.2
