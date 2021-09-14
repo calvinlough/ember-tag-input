@@ -15,11 +15,11 @@ export default class IndexController extends Controller {
     this.tags.removeAt(index);
   }
 
-  @ction onKeyUp(value) {
+  @action onKeyUp(value) {
     this.currentInputValue = value;
   }
 
-  @ction toggleReadOnly() {
+  @action toggleReadOnly() {
     this.readOnly = !this.readOnly;
   }
 }
