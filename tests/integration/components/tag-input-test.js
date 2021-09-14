@@ -1,8 +1,8 @@
-import Ember from 'ember';
-import { setupRenderingTest } from 'ember-qunit';
 import { module, test } from 'qunit';
+import { setupRenderingTest } from 'ember-qunit';
 import { render, find, typeIn, findAll, blur, triggerKeyEvent } from '@ember/test-helpers';
-import hbs from 'htmlbars-inline-precompile';
+import { hbs } from 'ember-cli-htmlbars';
+import { A } from '@ember/array';
 
 module('tag-input', 'Integration | Component | Ember Tag Input', function(hooks) {
   setupRenderingTest(hooks);
@@ -14,7 +14,7 @@ module('tag-input', 'Integration | Component | Ember Tag Input', function(hooks)
   test('New tags are created when delimiter characters are typed', async function(assert) {
     assert.expect(4);
 
-    const tags = Ember.A();
+    const tags = A();
 
     this.addTag = function(tag) {
       tags.pushObject(tag);
@@ -24,7 +24,7 @@ module('tag-input', 'Integration | Component | Ember Tag Input', function(hooks)
 
     await render(hbs`
       <TagInput 
-        @tags={{tags}}
+        @tags={{this.tags}}
         @addTag={{this.addTag}}
         as |tag|>
         {{tag}}
@@ -42,7 +42,7 @@ module('tag-input', 'Integration | Component | Ember Tag Input', function(hooks)
   test('New tags are created when the field is blurred', async function(assert) {
     assert.expect(3);
 
-    const tags = Ember.A();
+    const tags = A();
 
     this.addTag = function(tag) {
       tags.pushObject(tag);
@@ -51,7 +51,7 @@ module('tag-input', 'Integration | Component | Ember Tag Input', function(hooks)
 
     await render(hbs`
       <TagInput 
-        @tags={{tags}}
+        @tags={{this.tags}}
         @addTag={{this.addTag}}
         as |tag|>
         {{tag}}
@@ -69,7 +69,7 @@ module('tag-input', 'Integration | Component | Ember Tag Input', function(hooks)
   test('Tags can be removed using the backspace key', async function(assert) {
     assert.expect(5);
 
-    const tags = Ember.A();
+    const tags = A();
 
     this.addTag = function(tag) {
       tags.pushObject(tag);
@@ -108,7 +108,7 @@ module('tag-input', 'Integration | Component | Ember Tag Input', function(hooks)
   test('Tags can contain spaces when allowSpacesInTags is set to true', async function(assert) {
     assert.expect(3);
 
-    const tags = Ember.A();
+    const tags = A();
 
     this.addTag = function(tag) {
       tags.pushObject(tag);
@@ -136,7 +136,7 @@ module('tag-input', 'Integration | Component | Ember Tag Input', function(hooks)
   test('Tags can\'t be added or removed in read only mode', async function(assert) {
     assert.expect(5);
 
-    const tags = Ember.A(['hamburger', 'cheeseburger']);
+    const tags = A(['hamburger', 'cheeseburger']);
     this.set('tags', tags);
 
     await render(hbs`
@@ -156,7 +156,7 @@ module('tag-input', 'Integration | Component | Ember Tag Input', function(hooks)
   });
 
   test('send input value when typing', async function(assert) {
-    const tags = Ember.A();
+    const tags = A();
 
     this.addTag = function(tag) {
       tags.pushObject(tag);
@@ -196,7 +196,7 @@ module('tag-input', 'Integration | Component | Ember Tag Input', function(hooks)
   test('Tags can be added after readOnly changes to false', async function(assert) {
     assert.expect(4);
 
-    const tags = Ember.A();
+    const tags = A();
 
     this.addTag = function(tag) {
       tags.pushObject(tag);
@@ -229,7 +229,7 @@ module('tag-input', 'Integration | Component | Ember Tag Input', function(hooks)
   test('Tags can\'t be added or removed after readOnly changes from false to true', async function(assert) {
     assert.expect(3);
 
-    const tags = Ember.A(['hamburger', 'cheeseburger']);
+    const tags = A(['hamburger', 'cheeseburger']);
 
     this.set('tags', tags);
     this.set('readOnly', false);
