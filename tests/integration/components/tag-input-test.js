@@ -35,8 +35,8 @@ module('tag-input', 'Integration | Component | Ember Tag Input', function(hooks)
 
     assert.equal(find('.js-ember-tag-input-new').textContent.trim(), '');
     assert.equal(findAll('.emberTagInput-tag').length, 2);
-    assert.equal(findAll('.emberTagInput-tag').firstObject.textContent.trim(), 'first');
-    assert.equal(findAll('.emberTagInput-tag').lastObject.textContent.trim(), 'second');
+    assert.equal(findAll('.emberTagInput-tag')[0].textContent.trim(), 'first');
+    assert.equal(findAll('.emberTagInput-tag')[1].textContent.trim(), 'second');
   });
 
   test('New tags are created when the field is blurred', async function(assert) {
@@ -63,7 +63,7 @@ module('tag-input', 'Integration | Component | Ember Tag Input', function(hooks)
 
     assert.equal(find('.js-ember-tag-input-new').textContent.trim(), '');
     assert.equal(findAll('.emberTagInput-tag').length, 1);
-    assert.equal(findAll('.emberTagInput-tag').firstObject.textContent.trim(), 'blurry');
+    assert.equal(findAll('.emberTagInput-tag')[0].textContent.trim(), 'blurry');
   });
 
   test('Tags can be removed using the backspace key', async function(assert) {
@@ -82,7 +82,7 @@ module('tag-input', 'Integration | Component | Ember Tag Input', function(hooks)
 
     await render(hbs`
       <TagInput 
-        @tags={{tags}}
+        @tags={{this.tags}}
         @addTag={{this.addTag}}
         @removeTagAtIndex={{this.removeTagAtIndex}}
         as |tag|>
@@ -117,7 +117,7 @@ module('tag-input', 'Integration | Component | Ember Tag Input', function(hooks)
 
     await render(hbs`
       <TagInput 
-        @tags={{tags}}
+        @tags={{this.tags}}
         @addTag={{this.addTag}}
         @allowSpacesInTags={{true}}
         as |tag|>
@@ -130,7 +130,7 @@ module('tag-input', 'Integration | Component | Ember Tag Input', function(hooks)
 
     assert.equal(find('.js-ember-tag-input-new').textContent.trim(), '');
     assert.equal(findAll('.emberTagInput-tag').length, 1);
-    assert.equal(findAll('.emberTagInput-tag').firstObject.textContent.trim(), 'multiple words rock');
+    assert.equal(findAll('.emberTagInput-tag')[0].textContent.trim(), 'multiple words rock');
   });
 
   test('Tags can\'t be added or removed in read only mode', async function(assert) {
@@ -141,7 +141,7 @@ module('tag-input', 'Integration | Component | Ember Tag Input', function(hooks)
 
     await render(hbs`
       <TagInput 
-        @tags={{tags}}
+        @tags={{this.tags}}
         @readOnly={{true}}
         as |tag|>
         {{tag}}
@@ -172,7 +172,7 @@ module('tag-input', 'Integration | Component | Ember Tag Input', function(hooks)
 
     await render(hbs`
     <TagInput 
-      @tags={{tags}}
+      @tags={{this.tags}}
       @addTag={{this.addTag}}
       @onKeyUp={{this.onKeyUp}}
       as |tag|>
@@ -189,7 +189,7 @@ module('tag-input', 'Integration | Component | Ember Tag Input', function(hooks)
   await blur(find('.js-ember-tag-input-new'));
 
   assert.equal(findAll('.emberTagInput-tag').length, 1);
-  assert.equal(findAll('.emberTagInput-tag').firstObject.textContent.trim(), 'tes');
+  assert.equal(findAll('.emberTagInput-tag')[0].textContent.trim(), 'tes');
   assert.equal(inputValue, '');
   });
 
@@ -207,9 +207,9 @@ module('tag-input', 'Integration | Component | Ember Tag Input', function(hooks)
 
     await render(hbs`
       <TagInput 
-        @tags={{tags}}
+        @tags={{this.tags}}
         @addTag={{this.addTag}}
-        @readOnly={{readOnly}}
+        @readOnly={{this.readOnly}}
         as |tag|>
         {{tag}}
       </TagInput>
@@ -222,12 +222,12 @@ module('tag-input', 'Integration | Component | Ember Tag Input', function(hooks)
     await typeIn(find('.js-ember-tag-input-new'), 'some tag ');
 
     assert.equal(findAll('.emberTagInput-tag').length, 2);
-    assert.equal(findAll('.emberTagInput-tag').firstObject.textContent.trim(), 'some');
-    assert.equal(findAll('.emberTagInput-tag').lastObject.textContent.trim(), 'tag');
+    assert.equal(findAll('.emberTagInput-tag')[0].textContent.trim(), 'some');
+    assert.equal(findAll('.emberTagInput-tag')[1].textContent.trim(), 'tag');
   });
 
   test('Tags can\'t be added or removed after readOnly changes from false to true', async function(assert) {
-    assert.expect(3);
+    assert.expect(5);
 
     const tags = A(['hamburger', 'cheeseburger']);
 
@@ -244,9 +244,9 @@ module('tag-input', 'Integration | Component | Ember Tag Input', function(hooks)
 
     await render(hbs`
       <TagInput 
-        @tags={{tags}}
+        @tags={{this.tags}}
         @addTag={{this.addTag}}
-        @readOnly={{readOnly}}
+        @readOnly={{this.readOnly}}
         @removeTagAtIndex={{this.removeTagAtIndex}}
         as |tag|>
         {{tag}}
@@ -259,14 +259,24 @@ module('tag-input', 'Integration | Component | Ember Tag Input', function(hooks)
 
     //try adding new tags
 
-    await typeIn(find('.js-ember-tag-input-new'), 'some tag ');
+    // TODO: fails
+    try {
+      await typeIn(find('.js-ember-tag-input-new'), 'some tag ');
+    } catch (error) {
+      assert.ok(error.message === "Can not `typeIn` disabled '[object HTMLInputElement]'.");
+    }
 
     assert.equal(findAll('.emberTagInput-tag').length, 2);
 
     //Try deleting 
 
-    await triggerKeyEvent(find('.js-ember-tag-input-new'), 'keydown', KEY_CODES.BACKSPACE); 
-    await triggerKeyEvent(find('.js-ember-tag-input-new'), 'keydown', KEY_CODES.BACKSPACE); 
+    // TODO: fails
+    try {
+      await triggerKeyEvent(find('.js-ember-tag-input-new'), 'keydown', KEY_CODES.BACKSPACE); 
+      await triggerKeyEvent(find('.js-ember-tag-input-new'), 'keydown', KEY_CODES.BACKSPACE); 
+    } catch (error) {
+      assert.ok(error.message === "Can not `triggerKeyEvent` on disabled [object HTMLInputElement]");
+    }
 
     assert.equal(findAll('.emberTagInput-tag').length, 2);
   });
