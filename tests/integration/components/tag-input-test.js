@@ -31,10 +31,10 @@ module('tag-input', 'Integration | Component | Ember Tag Input', function(hooks)
       </TagInput>
     `);
 
-    await typeIn(find('.js-ember-tag-input-new'), 'first second ');
+    await typeIn('.js-ember-tag-input-new', 'first second ');
 
-    assert.equal(find('.js-ember-tag-input-new').textContent.trim(), '');
-    assert.equal(findAll('.emberTagInput-tag').length, 2);
+    assert.dom('.js-ember-tag-input-new').includesText('');
+    assert.dom('.emberTagInput-tag').exists({ count: 2 });
     assert.equal(findAll('.emberTagInput-tag')[0].textContent.trim(), 'first');
     assert.equal(findAll('.emberTagInput-tag')[1].textContent.trim(), 'second');
   });
@@ -58,11 +58,11 @@ module('tag-input', 'Integration | Component | Ember Tag Input', function(hooks)
       </TagInput>
     `);
 
-    await typeIn(find('.js-ember-tag-input-new'), 'blurry');
-    await blur(find('.js-ember-tag-input-new'));
+    await typeIn('.js-ember-tag-input-new', 'blurry');
+    await blur('.js-ember-tag-input-new');
 
-    assert.equal(find('.js-ember-tag-input-new').textContent.trim(), '');
-    assert.equal(findAll('.emberTagInput-tag').length, 1);
+    assert.dom('.js-ember-tag-input-new').includesText('');
+    assert.dom('.emberTagInput-tag').exists({ count: 1 });
     assert.equal(findAll('.emberTagInput-tag')[0].textContent.trim(), 'blurry');
   });
 
@@ -90,19 +90,19 @@ module('tag-input', 'Integration | Component | Ember Tag Input', function(hooks)
       </TagInput>
     `);
 
-    await typeIn(find('.js-ember-tag-input-new'), 'removeme ');
+    await typeIn('.js-ember-tag-input-new', 'removeme ');
 
-    assert.equal(find('.js-ember-tag-input-new').textContent.trim(), '');
-    assert.equal(findAll('.emberTagInput-tag').length, 1);
+    assert.dom('.js-ember-tag-input-new').includesText('');
+    assert.dom('.emberTagInput-tag').exists({ count: 1 });
 
-    await triggerKeyEvent(find('.js-ember-tag-input-new'), 'keydown', KEY_CODES.BACKSPACE); //First keypress highlights the tag for deletion
+    await triggerKeyEvent('.js-ember-tag-input-new', 'keydown', KEY_CODES.BACKSPACE); //First keypress highlights the tag for deletion
 
-    assert.equal(find('.js-ember-tag-input-new').textContent.trim(), '');
-    assert.equal(findAll('.emberTagInput-tag').length, 1);
+    assert.dom('.js-ember-tag-input-new').includesText('');
+    assert.dom('.emberTagInput-tag').exists({ count: 1 });
 
-    await triggerKeyEvent(find('.js-ember-tag-input-new'), 'keydown', KEY_CODES.BACKSPACE); //Second keypress deletes the tag
+    await triggerKeyEvent('.js-ember-tag-input-new', 'keydown', KEY_CODES.BACKSPACE); //Second keypress deletes the tag
 
-    assert.equal(findAll('.emberTagInput-tag').length, 0);
+    assert.dom('.emberTagInput-tag').exists({ count: 0 });
   });
 
   test('Tags can contain spaces when allowSpacesInTags is set to true', async function(assert) {
@@ -125,11 +125,11 @@ module('tag-input', 'Integration | Component | Ember Tag Input', function(hooks)
       </TagInput>
     `);
 
-    await typeIn(find('.js-ember-tag-input-new'), 'multiple words rock');
-    await blur(find('.js-ember-tag-input-new'));
+    await typeIn('.js-ember-tag-input-new', 'multiple words rock');
+    await blur('.js-ember-tag-input-new');
 
-    assert.equal(find('.js-ember-tag-input-new').textContent.trim(), '');
-    assert.equal(findAll('.emberTagInput-tag').length, 1);
+    assert.dom('.js-ember-tag-input-new').includesText('');
+    assert.dom('.emberTagInput-tag').exists({ count: 1 });
     assert.equal(findAll('.emberTagInput-tag')[0].textContent.trim(), 'multiple words rock');
   });
 
@@ -148,11 +148,11 @@ module('tag-input', 'Integration | Component | Ember Tag Input', function(hooks)
       </TagInput>
     `);
 
-    assert.equal(findAll('.emberTagInput-tag').length, 2);
-    assert.equal(findAll('.emberTagInput-remove').length, 0);
-    assert.equal(findAll('.emberTagInput-new').length, 1);
-    assert.equal(find('input').textContent.length, 0);
-    assert.ok(find('input').disabled);
+    assert.dom('.emberTagInput-tag').exists({ count: 2 });
+    assert.dom('.emberTagInput-remove').exists({ count: 0 });
+    assert.dom('.emberTagInput-new').exists({ count: 1 });
+    assert.dom('input').hasText('');
+    assert.dom('input').isDisabled();
   });
 
   test('send input value when typing', async function(assert) {
@@ -180,15 +180,15 @@ module('tag-input', 'Integration | Component | Ember Tag Input', function(hooks)
     </TagInput>
   `);
 
-  await typeIn(find('.js-ember-tag-input-new'), 't');
+  await typeIn('.js-ember-tag-input-new', 't');
   assert.equal(inputValue, 't');
-  await typeIn(find('.js-ember-tag-input-new'), 'e');
+  await typeIn('.js-ember-tag-input-new', 'e');
   assert.equal(inputValue, 'te');
-  await typeIn(find('.js-ember-tag-input-new'), 's');
+  await typeIn('.js-ember-tag-input-new', 's');
   assert.equal(inputValue, 'tes');
-  await blur(find('.js-ember-tag-input-new'));
+  await blur('.js-ember-tag-input-new');
 
-  assert.equal(findAll('.emberTagInput-tag').length, 1);
+  assert.dom('.emberTagInput-tag').exists({ count: 1 });
   assert.equal(findAll('.emberTagInput-tag')[0].textContent.trim(), 'tes');
   assert.equal(inputValue, '');
   });
@@ -215,13 +215,13 @@ module('tag-input', 'Integration | Component | Ember Tag Input', function(hooks)
       </TagInput>
     `);
 
-    assert.ok(find('input').disabled);
+    assert.dom('input').isDisabled();
 
     await this.set('readOnly', false);
 
-    await typeIn(find('.js-ember-tag-input-new'), 'some tag ');
+    await typeIn('.js-ember-tag-input-new', 'some tag ');
 
-    assert.equal(findAll('.emberTagInput-tag').length, 2);
+    assert.dom('.emberTagInput-tag').exists({ count: 2 });
     assert.equal(findAll('.emberTagInput-tag')[0].textContent.trim(), 'some');
     assert.equal(findAll('.emberTagInput-tag')[1].textContent.trim(), 'tag');
   });
@@ -253,9 +253,9 @@ module('tag-input', 'Integration | Component | Ember Tag Input', function(hooks)
       </TagInput>
     `);
 
-    await this.set('readOnly', true);
+    this.set('readOnly', true);
 
-    assert.ok(find('input').disabled);
+    assert.dom('input').isDisabled();
 
     //try adding new tags
 
@@ -263,21 +263,21 @@ module('tag-input', 'Integration | Component | Ember Tag Input', function(hooks)
     try {
       await typeIn(find('.js-ember-tag-input-new'), 'some tag ');
     } catch (error) {
-      assert.ok(error.message === "Can not `typeIn` disabled '[object HTMLInputElement]'.");
+      assert.true(error.message === "Can not `typeIn` disabled '[object HTMLInputElement]'.");
     }
 
-    assert.equal(findAll('.emberTagInput-tag').length, 2);
+    assert.dom('.emberTagInput-tag').exists({ count: 2 });
 
     //Try deleting 
 
     // TODO: fails
     try {
-      await triggerKeyEvent(find('.js-ember-tag-input-new'), 'keydown', KEY_CODES.BACKSPACE); 
-      await triggerKeyEvent(find('.js-ember-tag-input-new'), 'keydown', KEY_CODES.BACKSPACE); 
+      await triggerKeyEvent('.js-ember-tag-input-new', 'keydown', KEY_CODES.BACKSPACE); 
+      await triggerKeyEvent('.js-ember-tag-input-new', 'keydown', KEY_CODES.BACKSPACE); 
     } catch (error) {
-      assert.ok(error.message === "Can not `triggerKeyEvent` on disabled [object HTMLInputElement]");
+      assert.true(error.message === "Can not `triggerKeyEvent` on disabled [object HTMLInputElement]");
     }
 
-    assert.equal(findAll('.emberTagInput-tag').length, 2);
+    assert.dom('.emberTagInput-tag').exists({ count: 2 });
   });
 });
