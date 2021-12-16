@@ -36,3 +36,18 @@
 {{#if this.currentInputValue}}
   <p>typing: {{this.currentInputValue}}</p>
 {{/if}}
+
+<h1>Tags as objects</h1>
+<p>You can pass tags as strings or objects. If you pass objects, use the property `modifiers` to pass extra classes to tags.</p>
+
+<TagInput
+  @tags={{this.tagsObjects}}
+  @placeholder="Add a tag..."
+  @ariaLabel="Add a tag input field"
+  @addTag={{this.addTagObject}}
+  @removeTagAtIndex={{this.removeTagObjectAtIndex}}
+  @onKeyUp={{this.onKeyUp}}
+  as |tag|
+>
+  {{tag.label}}
+</TagInput>

@@ -366,5 +366,34 @@ module(
 
       assert.dom('input').isDisabled();
     });
+
+    test('Tags as objects rely on property @modifiers to get custom classes', async function (assert) {
+      const tags = A([
+        {
+          label: 'hamburger',
+          modifiers: 'burger-style meat-style'
+        },
+        {
+          label: 'cheeseburger',
+          modifiers: 'burger-style cheese-style'
+        }
+      ]);
+
+      this.set('tags', tags);
+
+      await render(hbs`
+        <TagInput
+          @tags={{tags}}
+        as |tag|>
+          {{tag.label}}
+        </TagInput>
+      `);
+
+      let tagsElements = findAll('.emberTagInput-tag');
+      assert.ok(tagsElements[0].className.includes('burger-style meat-style'));
+      assert.ok(
+        tagsElements[1].className.includes('burger-style cheese-style')
+      );
+    });
   }
 );
