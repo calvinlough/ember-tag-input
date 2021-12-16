@@ -23,7 +23,7 @@ module('tag-input', 'Integration | Component | Ember Tag Input', function(hooks)
     this.set('tags', tags);
 
     await render(hbs`
-      <TagInput 
+      <TagInput
         @tags={{tags}}
         @addTag={{this.addTag}}
         as |tag|>
@@ -50,7 +50,7 @@ module('tag-input', 'Integration | Component | Ember Tag Input', function(hooks)
     this.set('tags', tags);
 
     await render(hbs`
-      <TagInput 
+      <TagInput
         @tags={{tags}}
         @addTag={{this.addTag}}
         as |tag|>
@@ -81,7 +81,7 @@ module('tag-input', 'Integration | Component | Ember Tag Input', function(hooks)
     this.set('tags', tags);
 
     await render(hbs`
-      <TagInput 
+      <TagInput
         @tags={{tags}}
         @addTag={{this.addTag}}
         @removeTagAtIndex={{this.removeTagAtIndex}}
@@ -116,7 +116,7 @@ module('tag-input', 'Integration | Component | Ember Tag Input', function(hooks)
     this.set('tags', tags);
 
     await render(hbs`
-      <TagInput 
+      <TagInput
         @tags={{tags}}
         @addTag={{this.addTag}}
         @allowSpacesInTags={{true}}
@@ -140,7 +140,7 @@ module('tag-input', 'Integration | Component | Ember Tag Input', function(hooks)
     this.set('tags', tags);
 
     await render(hbs`
-      <TagInput 
+      <TagInput
         @tags={{tags}}
         @readOnly={{true}}
         as |tag|>
@@ -171,7 +171,7 @@ module('tag-input', 'Integration | Component | Ember Tag Input', function(hooks)
     };
 
     await render(hbs`
-    <TagInput 
+    <TagInput
       @tags={{tags}}
       @addTag={{this.addTag}}
       @onKeyUp={{this.onKeyUp}}
@@ -206,7 +206,7 @@ module('tag-input', 'Integration | Component | Ember Tag Input', function(hooks)
     this.set('readOnly', true);
 
     await render(hbs`
-      <TagInput 
+      <TagInput
         @tags={{tags}}
         @addTag={{this.addTag}}
         @readOnly={{readOnly}}
@@ -243,7 +243,7 @@ module('tag-input', 'Integration | Component | Ember Tag Input', function(hooks)
     };
 
     await render(hbs`
-      <TagInput 
+      <TagInput
         @tags={{tags}}
         @addTag={{this.addTag}}
         @readOnly={{readOnly}}
@@ -263,11 +263,35 @@ module('tag-input', 'Integration | Component | Ember Tag Input', function(hooks)
 
     assert.equal(findAll('.emberTagInput-tag').length, 2);
 
-    //Try deleting 
+    //Try deleting
 
-    await triggerKeyEvent(find('.js-ember-tag-input-new'), 'keydown', KEY_CODES.BACKSPACE); 
-    await triggerKeyEvent(find('.js-ember-tag-input-new'), 'keydown', KEY_CODES.BACKSPACE); 
+    await triggerKeyEvent(find('.js-ember-tag-input-new'), 'keydown', KEY_CODES.BACKSPACE);
+    await triggerKeyEvent(find('.js-ember-tag-input-new'), 'keydown', KEY_CODES.BACKSPACE);
 
     assert.equal(findAll('.emberTagInput-tag').length, 2);
+  });
+
+  test('Tags as objects rely on property @modifiers to get custom classes', async function(assert) {
+    const tags = Ember.A([{
+      label: 'hamburger',
+      modifiers: 'burger-style meat-style'
+    }, {
+      label: 'cheeseburger',
+      modifiers: 'burger-style cheese-style'
+    }]);
+
+    this.set('tags', tags);
+
+    await render(hbs`
+      <TagInput
+        @tags={{tags}}
+      as |tag|>
+        {{tag.label}}
+      </TagInput>
+    `);
+
+    let tagsElements = findAll('.emberTagInput-tag')
+    assert.ok(tagsElements[0].className.includes('burger-style meat-style'))
+    assert.ok(tagsElements[1].className.includes('burger-style cheese-style'))
   });
 });
