@@ -6,7 +6,7 @@ jobs:
   test:
     executor:
       name: node/default
-      tag: '14.16.0'
+      tag: '14.19.1'
     steps:
       - checkout
       - browser-tools/install-chrome
