@@ -7,19 +7,21 @@ module.exports = {
     ecmaVersion: 2018,
     sourceType: 'module',
     ecmaFeatures: {
-      legacyDecorators: true,
-    },
+      legacyDecorators: true
+    }
   },
   plugins: ['ember'],
   extends: [
     'eslint:recommended',
     'plugin:ember/recommended',
-    'plugin:prettier/recommended',
+    'plugin:prettier/recommended'
   ],
   env: {
-    browser: true,
+    browser: true
   },
-  rules: {},
+  rules: {
+    'ember/no-classic-components': 'off'
+  },
   overrides: [
     // node files
     {
@@ -32,22 +34,25 @@ module.exports = {
         './testem.js',
         './blueprints/*/index.js',
         './config/**/*.js',
-        './tests/dummy/config/**/*.js',
+        './tests/dummy/config/**/*.js'
       ],
       parserOptions: {
-        sourceType: 'script',
+        sourceType: 'script'
       },
       env: {
         browser: false,
-        node: true,
+        node: true
       },
       plugins: ['node'],
-      extends: ['plugin:node/recommended'],
+      extends: ['plugin:node/recommended']
     },
     {
-      // Test files:
+      // test files
       files: ['tests/**/*-test.{js,ts}'],
       extends: ['plugin:qunit/recommended'],
-    },
-  ],
+      rules: {
+        'qunit/no-assert-equal': 'off'
+      }
+    }
+  ]
 };
