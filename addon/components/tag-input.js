@@ -1,6 +1,5 @@
 import Component from '@ember/component';
-import { computed } from '@ember/object';
-import layout from '../templates/components/tag-input';
+import { computed, action } from '@ember/object';
 
 const KEY_CODES = {
   BACKSPACE: 8,
@@ -13,36 +12,33 @@ const TAG_CLASS = 'emberTagInput-tag';
 const REMOVE_CONFIRMATION_CLASS = 'emberTagInput-tag--remove';
 
 export default class TagInput extends Component {
-  layout,
 
-  classNameBindings: [':emberTagInput', 'readOnly:emberTagInput--readOnly'],
+  classNameBindings = [':emberTagInput', 'readOnly:emberTagInput--readOnly'];
 
-  tagName: 'ul',
+  tagName = 'ul';
 
-  tags: null,
+  tags = null;
 
-  removeConfirmation: true,
+  removeConfirmation = true;
 
-  allowDuplicates: false,
+  allowDuplicates = false;
 
-  allowSpacesInTags: false,
+  allowSpacesInTags = false;
 
-  showRemoveButtons: true,
+  showRemoveButtons = true;
 
-  readOnly: false,
+  readOnly = false;
 
-  placeholder: '',
+  placeholder = '';
 
-  ariaLabel: '',
-  _isRemoveButtonVisible: computed(
-    'showRemoveButtons',
-    'readOnly',
-    function () {
-      return this.showRemoveButtons && !this.readOnly;
-    }
-  ),
+  ariaLabel = '';
 
-  onKeyUp: false,
+  @computed('showRemoveButtons', 'readOnly')
+  get _isRemoveButtonVisible() {
+    return this.showRemoveButtons && !this.readOnly;
+  }
+
+  onKeyUp = false;
 
   addNewTag(tag) {
     const tags = this.tags;
@@ -54,18 +50,18 @@ export default class TagInput extends Component {
     }
 
     return addTag(tag) !== false;
-  },
+  }
 
   didInsertElement() {
     this._super(...arguments);
     this.initEvents();
-  },
+  }
 
   dispatchKeyUp(value) {
     if (this.onKeyUp) {
       this.onKeyUp(value);
     }
-  },
+  }
 
   _onContainerClick() {
     const newTagInput = this.element.querySelector('.js-ember-tag-input-new');
@@ -74,7 +70,7 @@ export default class TagInput extends Component {
     if (!isReadOnly) {
       newTagInput.focus();
     }
-  },
+  }
 
   _onInputKeyDown(e) {
     if (!this.readOnly) {
@@ -127,7 +123,7 @@ export default class TagInput extends Component {
         );
       }
     }
-  },
+  }
 
   _onInputBlur(e) {
     const newTag = e.target.value.trim();
@@ -138,11 +134,11 @@ export default class TagInput extends Component {
         this.dispatchKeyUp('');
       }
     }
-  },
+  }
 
   _onInputKeyUp(e) {
     this.dispatchKeyUp(e.target.value);
-  },
+  }
 
   initEvents() {
     const container = this.element;
@@ -157,12 +153,11 @@ export default class TagInput extends Component {
     newTagInput.addEventListener('keydown', onInputKeyDown);
     newTagInput.addEventListener('blur', onInputBlur);
     newTagInput.addEventListener('keyup', onInputKeyUp);
-  },
+  }
 
-  actions: {
-    removeTag(index) {
-      const removeTagAtIndex = this.removeTagAtIndex;
-      removeTagAtIndex(index);
-    }
+  @action
+  removeTag(index) {
+    const removeTagAtIndex = this.removeTagAtIndex;
+    removeTagAtIndex(index);
   }
 }
