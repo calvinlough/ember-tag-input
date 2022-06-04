@@ -1,5 +1,6 @@
 import Component from '@ember/component';
-import { computed, action } from '@ember/object';
+import { action } from '@ember/object';
+import { tracked } from '@glimmer/tracking';
 
 const KEY_CODES = {
   BACKSPACE: 8,
@@ -12,7 +13,6 @@ const TAG_CLASS = 'emberTagInput-tag';
 const REMOVE_CONFIRMATION_CLASS = 'emberTagInput-tag--remove';
 
 export default class TagInput extends Component {
-
   classNameBindings = [':emberTagInput', 'readOnly:emberTagInput--readOnly'];
 
   tagName = 'ul';
@@ -25,15 +25,16 @@ export default class TagInput extends Component {
 
   allowSpacesInTags = false;
 
+  @tracked
   showRemoveButtons = true;
 
+  @tracked
   readOnly = false;
 
   placeholder = '';
 
   ariaLabel = '';
 
-  @computed('showRemoveButtons', 'readOnly')
   get _isRemoveButtonVisible() {
     return this.showRemoveButtons && !this.readOnly;
   }
@@ -53,7 +54,7 @@ export default class TagInput extends Component {
   }
 
   didInsertElement() {
-    this._super(...arguments);
+    super.didInsertElement(...arguments);
     this.initEvents();
   }
 

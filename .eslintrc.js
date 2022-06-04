@@ -20,7 +20,9 @@ module.exports = {
     browser: true
   },
   rules: {
-    'ember/no-classic-components': 'off'
+    'ember/no-classic-components': 'off',
+    'ember/require-tagless-components': 'off',
+    'ember/no-component-lifecycle-hooks': 'off'
   },
   overrides: [
     // node files

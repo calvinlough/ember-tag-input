@@ -1,11 +1,11 @@
-{{#each this.tags as |tag index|}}
+{{#each this.tags as |tag index|~}}
   <li class="emberTagInput-tag">
     {{yield tag}}
     {{#if this._isRemoveButtonVisible}}
-      <a class="emberTagInput-remove" {{action 'removeTag' index}}></a>
+      <a class="emberTagInput-remove" {{on 'click' (fn this.removeTag index)}}></a>
     {{/if}}
   </li>
-{{/each}}
+{{~/each~}}
 
 <li class="emberTagInput-new">
   <input
