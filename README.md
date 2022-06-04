@@ -1,5 +1,4 @@
 # ember-tag-input
-[![CircleCI](https://circleci.com/gh/calvinlough/ember-tag-input.svg?style=svg)](https://circleci.com/gh/calvinlough/ember-tag-input)
 
 
 ember-tag-input is a simple Ember addon that converts a user's typing into tags. New tags are created when the user types a comma, space, or hits the enter key. Tags can be removed using the backspace key or by clicking the x button on each tag.
@@ -15,7 +14,8 @@ In the simplest case, just pass a list of tags to render and actions for adding 
   @tags={{this.tags}}
   @addTag={{this.addTag}}
   @removeTagAtIndex={{this.removeTagAtIndex}}
-  as |tag|>
+  as |tag|
+>
   {{tag}}
 </TagInput>
 ```
@@ -45,7 +45,8 @@ The above example works if your tags array is just an simple array of strings. I
   @tags={{this.tags}}
   @addTag={{this.addTag}}
   @removeTagAtIndex={{this.removeTagAtIndex}}
-  as |tag|>
+  as |tag|
+>
   <div class="tagInput-name">
     {{tag.name}}
   </div>
