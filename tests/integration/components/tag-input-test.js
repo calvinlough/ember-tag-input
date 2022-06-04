@@ -2,7 +2,6 @@ import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import {
   render,
-  find,
   typeIn,
   findAll,
   blur,
@@ -263,7 +262,7 @@ module(
       assert.equal(findAll('.emberTagInput-tag')[1].textContent.trim(), 'tag');
     });
 
-    test("input is disabled after readOnly changes from false to true", async function (assert) {
+    test('input is disabled after readOnly changes from false to true', async function (assert) {
       assert.expect(2);
 
       const tags = A(['hamburger', 'cheeseburger']);
