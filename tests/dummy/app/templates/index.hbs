@@ -1,38 +1,38 @@
 <h1>Default</h1>
 
-{{#tag-input
-  tags=tags
-  placeholder='Add a tag...'
-  ariaLabel='Add a tag input field'
-  addTag=(action 'addTag')
-  removeTagAtIndex=(action 'removeTag')
-  onKeyUp=(action 'onKeyUp')
+<TagInput
+  @tags={{this.tags}}
+  @placeholder="Add a tag..."
+  @ariaLabel="Add a tag input field"
+  @addTag={{this.addTag}}
+  @removeTagAtIndex={{this.removeTagAtIndex}}
+  @onKeyUp={{this.onKeyUp}}
   as |tag|
-}}
+>
   {{tag}}
-{{/tag-input}}
+</TagInput>
 
-{{#if currentInputValue}}
-  <p>typing: {{currentInputValue}}</p>
+{{#if this.currentInputValue}}
+  <p>typing: {{this.currentInputValue}}</p>
 {{/if}}
 
 <h1>readOnly</h1>
 
-{{#tag-input
-  tags=tags
-  placeholder='Add a tag...'
-  ariaLabel='Add a tag input field'
-  addTag=(action 'addTag')
-  removeTagAtIndex=(action 'removeTag')
-  onKeyUp=(action 'onKeyUp')
-  readOnly=readOnly
+<TagInput
+  @tags={{this.tags}}
+  @placeholder="Add a tag..."
+  @ariaLabel="Add a tag input field"
+  @addTag={{this.addTag}}
+  @removeTagAtIndex={{this.removeTagAtIndex}}
+  @onKeyUp={{this.onKeyUp}}
+  @readOnly={{this.readOnly}}
   as |tag|
-}}
+>
   {{tag}}
-{{/tag-input}}
+</TagInput>
 
-<button type="button" name="button" {{action "toggleReadOnly"}}>Toggle</button>
+<button type="button" name="button" {{on "click" this.toggleReadOnly}}>Toggle</button>
 
-{{#if currentInputValue}}
-  <p>typing: {{currentInputValue}}</p>
+{{#if this.currentInputValue}}
+  <p>typing: {{this.currentInputValue}}</p>
 {{/if}}

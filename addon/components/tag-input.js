@@ -1,7 +1,6 @@
-import Ember from 'ember';
-import layout from '../templates/components/tag-input';
-
-const { Component, computed } = Ember;
+import Component from '@ember/component';
+import { action } from '@ember/object';
+import { tracked } from '@glimmer/tracking';
 
 const KEY_CODES = {
   BACKSPACE: 8,
@@ -13,81 +12,89 @@ const KEY_CODES = {
 const TAG_CLASS = 'emberTagInput-tag';
 const REMOVE_CONFIRMATION_CLASS = 'emberTagInput-tag--remove';
 
-export default Component.extend({
-  layout,
+export default class TagInput extends Component {
+  classNameBindings = [':emberTagInput', 'readOnly:emberTagInput--readOnly'];
 
-  classNameBindings: [':emberTagInput', 'readOnly:emberTagInput--readOnly'],
+  tagName = 'ul';
 
-  tagName: 'ul',
+  tags = null;
 
-  tags: null,
+  removeConfirmation = true;
 
-  removeConfirmation: true,
+  allowDuplicates = false;
 
-  allowDuplicates: false,
+  allowSpacesInTags = false;
 
-  allowSpacesInTags: false,
+  @tracked
+  showRemoveButtons = true;
 
-  showRemoveButtons: true,
+  @tracked
+  readOnly = false;
 
-  readOnly: false,
+  placeholder = '';
 
-  placeholder: '',
+  ariaLabel = '';
 
-  ariaLabel: '',
-  _isRemoveButtonVisible: computed('showRemoveButtons', 'readOnly', function() {
-    return this.get('showRemoveButtons') && !this.get('readOnly');
-  }),
+  get _isRemoveButtonVisible() {
+    return this.showRemoveButtons && !this.readOnly;
+  }
 
-  onKeyUp: false,
+  onKeyUp = false;
 
   addNewTag(tag) {
-    const tags = this.get('tags');
-    const addTag = this.get('addTag');
-    const allowDuplicates = this.get('allowDuplicates');
+    const tags = this.tags;
+    const addTag = this.addTag;
+    const allowDuplicates = this.allowDuplicates;
 
     if (!allowDuplicates && tags && tags.indexOf(tag) >= 0) {
       return false;
     }
 
     return addTag(tag) !== false;
-  },
+  }
 
   didInsertElement() {
+    super.didInsertElement(...arguments);
     this.initEvents();
-  },
+  }
 
   dispatchKeyUp(value) {
-    if (this.get('onKeyUp')) {
-      this.get('onKeyUp')(value);
+    if (this.onKeyUp) {
+      this.onKeyUp(value);
     }
-  },
+  }
 
   _onContainerClick() {
     const newTagInput = this.element.querySelector('.js-ember-tag-input-new');
-    const isReadOnly = this.get('readOnly');
+    const isReadOnly = this.readOnly;
 
     if (!isReadOnly) {
       newTagInput.focus();
     }
-  },
+  }
 
   _onInputKeyDown(e) {
     if (!this.readOnly) {
-      const allowSpacesInTags = this.get('allowSpacesInTags');
-      const tags = this.get('tags');
-      const backspaceRegex = new RegExp(String.fromCharCode(KEY_CODES.BACKSPACE), 'g');
+      const allowSpacesInTags = this.allowSpacesInTags;
+      const tags = this.tags;
+      const backspaceRegex = new RegExp(
+        String.fromCharCode(KEY_CODES.BACKSPACE),
+        'g'
+      );
       const newTag = e.target.value.trim().replace(backspaceRegex, '');
 
       if (e.which === KEY_CODES.BACKSPACE) {
         if (newTag.length === 0 && tags.length > 0) {
-          const removeTagAtIndex = this.get('removeTagAtIndex');
+          const removeTagAtIndex = this.removeTagAtIndex;
 
-          if (this.get('removeConfirmation')) {
-            const tags = this.element.querySelectorAll('.' + TAG_CLASS)
+          if (this.removeConfirmation) {
+            const tags = this.element.querySelectorAll('.' + TAG_CLASS);
             const lastTag = tags[tags.length - 1];
 
-            if (lastTag && !lastTag.classList.contains(REMOVE_CONFIRMATION_CLASS)) {
+            if (
+              lastTag &&
+              !lastTag.classList.contains(REMOVE_CONFIRMATION_CLASS)
+            ) {
               lastTag.classList.add(REMOVE_CONFIRMATION_CLASS);
               return;
             }
@@ -96,7 +103,11 @@ export default Component.extend({
           removeTagAtIndex(tags.length - 1);
         }
       } else {
-        if (e.which === KEY_CODES.COMMA || (!allowSpacesInTags && e.which === KEY_CODES.SPACE) || e.which === KEY_CODES.ENTER) {
+        if (
+          e.which === KEY_CODES.COMMA ||
+          (!allowSpacesInTags && e.which === KEY_CODES.SPACE) ||
+          e.which === KEY_CODES.ENTER
+        ) {
           if (newTag.length > 0) {
             if (this.addNewTag(newTag)) {
               e.target.value = '';
@@ -105,12 +116,15 @@ export default Component.extend({
           e.preventDefault();
         }
 
-        [].forEach.call(this.element.querySelectorAll('.' + TAG_CLASS), function(tagEl) {
-          tagEl.classList.remove(REMOVE_CONFIRMATION_CLASS);
-        });
+        [].forEach.call(
+          this.element.querySelectorAll('.' + TAG_CLASS),
+          function (tagEl) {
+            tagEl.classList.remove(REMOVE_CONFIRMATION_CLASS);
+          }
+        );
       }
     }
-  },
+  }
 
   _onInputBlur(e) {
     const newTag = e.target.value.trim();
@@ -121,11 +135,11 @@ export default Component.extend({
         this.dispatchKeyUp('');
       }
     }
-  },
+  }
 
   _onInputKeyUp(e) {
     this.dispatchKeyUp(e.target.value);
-  },
+  }
 
   initEvents() {
     const container = this.element;
@@ -140,12 +154,11 @@ export default Component.extend({
     newTagInput.addEventListener('keydown', onInputKeyDown);
     newTagInput.addEventListener('blur', onInputBlur);
     newTagInput.addEventListener('keyup', onInputKeyUp);
-  },
-
-  actions: {
-    removeTag(index) {
-      const removeTagAtIndex = this.get('removeTagAtIndex');
-      removeTagAtIndex(index);
-    }
   }
-});
+
+  @action
+  removeTag(index) {
+    const removeTagAtIndex = this.removeTagAtIndex;
+    removeTagAtIndex(index);
+  }
+}

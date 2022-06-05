@@ -1,6 +1,6 @@
 'use strict';
 
-module.exports = function(env) {
+module.exports = function (env) {
   let ENV = {
     APP: {}
   };
@@ -10,4 +10,4 @@ module.exports = function(env) {
   }
 
   return ENV;
-}
+};

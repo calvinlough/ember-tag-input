@@ -1,25 +1,26 @@
-import Ember from 'ember';
+import Controller from '@ember/controller';
+import { tracked } from '@glimmer/tracking';
+import { action } from '@ember/object';
+import { A } from '@ember/array';
 
-export default Ember.Controller.extend({
-  tags: ['foo', 'bar'],
+export default class IndexController extends Controller {
+  @tracked tags = A(['foo', 'bar']);
+  @tracked readOnly = true;
+  @tracked currentInputValue;
 
-  readOnly: true,
-
-  actions: {
-    addTag(tag) {
-      this.get('tags').pushObject(tag);
-    },
-
-    removeTag(index) {
-      this.get('tags').removeAt(index);
-    },
-
-    onKeyUp(value) {
-      this.set('currentInputValue', value);
-    },
-
-    toggleReadOnly() {
-      this.toggleProperty('readOnly');
-    }
+  @action addTag(tag) {
+    this.tags.pushObject(tag);
   }
-});
+
+  @action removeTagAtIndex(index) {
+    this.tags.removeAt(index);
+  }
+
+  @action onKeyUp(value) {
+    this.currentInputValue = value;
+  }
+
+  @action toggleReadOnly() {
+    this.readOnly = !this.readOnly;
+  }
+}
