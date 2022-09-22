@@ -66,6 +66,10 @@ The above example works if your tags array is just an simple array of strings. I
 - Whether or not it takes two presses of the backspace key to remove a tag. When enabled, the first backspace press will add the class `emberTagInput-tag--remove` to the element that is about to be removed.
 - **default: true**
 
+### allowCommaInTags
+- If tags are allowed to contain comma.
+- **default: false**
+
 ### allowSpacesInTags
 - If tags are allowed to contain spaces.
 - **default: false**
