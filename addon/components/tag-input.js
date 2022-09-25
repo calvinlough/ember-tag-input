@@ -21,6 +21,8 @@ export default class TagInput extends Component {
 
   removeConfirmation = true;
 
+  allowCommaInTags = false;
+
   allowDuplicates = false;
 
   allowSpacesInTags = false;
@@ -75,8 +77,7 @@ export default class TagInput extends Component {
 
   _onInputKeyDown(e) {
     if (!this.readOnly) {
-      const allowSpacesInTags = this.allowSpacesInTags;
-      const tags = this.tags;
+      const { allowCommaInTags, allowSpacesInTags, tags } = this;
       const backspaceRegex = new RegExp(
         String.fromCharCode(KEY_CODES.BACKSPACE),
         'g'
@@ -104,7 +105,7 @@ export default class TagInput extends Component {
         }
       } else {
         if (
-          e.which === KEY_CODES.COMMA ||
+          (!allowCommaInTags && e.which === KEY_CODES.COMMA) ||
           (!allowSpacesInTags && e.which === KEY_CODES.SPACE) ||
           e.which === KEY_CODES.ENTER
         ) {

@@ -17,6 +17,7 @@ module(
     setupRenderingTest(hooks);
 
     const KEY_CODES = {
+      COMMA: 188,
       BACKSPACE: 8
     };
 
@@ -163,6 +164,75 @@ module(
       assert.equal(
         findAll('.emberTagInput-tag')[0].textContent.trim(),
         'multiple words rock'
+      );
+    });
+
+    test('Tags should not contain comma by default when allowCommaInTags is not provided', async function (assert) {
+      assert.expect(3);
+
+      const tags = A();
+
+      this.addTag = function (tag) {
+        tags.pushObject(tag);
+      };
+      this.set('tags', tags);
+
+      await render(hbs`
+        <TagInput
+          @tags={{this.tags}}
+          @addTag={{this.addTag}}
+          @allowCommaInTags={{false}}
+          as |tag|
+        >
+          {{tag}}
+        </TagInput>
+      `);
+
+      await typeIn('.js-ember-tag-input-new', 'Scrabble');
+      await triggerKeyEvent(
+        '.js-ember-tag-input-new',
+        'keydown',
+        KEY_CODES.COMMA
+      );
+
+      assert.dom('.js-ember-tag-input-new').includesText('');
+      assert.dom('.emberTagInput-tag').exists({ count: 1 });
+      assert.equal(
+        findAll('.emberTagInput-tag')[0].textContent.trim(),
+        'Scrabble'
+      );
+    });
+
+    test('Tags can contain commas when allowCommaInTags is set to true', async function (assert) {
+      assert.expect(3);
+
+      const tags = A();
+
+      this.addTag = function (tag) {
+        tags.pushObject(tag);
+      };
+      this.set('tags', tags);
+
+      await render(hbs`
+        <TagInput
+          @tags={{this.tags}}
+          @addTag={{this.addTag}}
+          @allowCommaInTags={{true}}
+          @allowSpacesInTags={{true}}
+          as |tag|
+        >
+          {{tag}}
+        </TagInput>
+      `);
+
+      await typeIn('.js-ember-tag-input-new', 'Scrabble, Words With Friends,');
+      await blur('.js-ember-tag-input-new');
+
+      assert.dom('.js-ember-tag-input-new').includesText('');
+      assert.dom('.emberTagInput-tag').exists({ count: 1 });
+      assert.equal(
+        findAll('.emberTagInput-tag')[0].textContent.trim(),
+        'Scrabble, Words With Friends,'
       );
     });
 
