@@ -383,13 +383,14 @@ module(
 
       await render(hbs`
         <TagInput
-          @tags={{tags}}
-        as |tag|>
+          @tags={{this.tags}}
+          as |tag|
+        >
           {{tag.label}}
         </TagInput>
       `);
 
-      let tagsElements = findAll('.emberTagInput-tag');
+      const tagsElements = findAll('.emberTagInput-tag');
       assert.ok(tagsElements[0].className.includes('burger-style meat-style'));
       assert.ok(
         tagsElements[1].className.includes('burger-style cheese-style')
