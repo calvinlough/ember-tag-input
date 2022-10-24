@@ -55,7 +55,13 @@ The above example works if your tags array is just an simple array of strings. I
   </div>
 </TagInput>
 ```
-
+If you pass tags objects, you can use the `modifiers` property to pass extra classes to individual tags:
+```
+tags = A([
+  { name: 'first', modifiers: 'primaryTag' },
+  { name: 'second', modifiers: 'secondaryTag' },
+]);
+```
 ## Options
 
 ### tags
