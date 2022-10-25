@@ -8,12 +8,26 @@ export default class IndexController extends Controller {
   @tracked readOnly = true;
   @tracked currentInputValue;
 
+  @tracked tagsObjects = [{ label: 'foo' }, { label: 'bar' }];
+  colors = ['green', 'red', 'purple'];
+
   @action addTag(tag) {
     this.tags.pushObject(tag);
   }
 
   @action removeTagAtIndex(index) {
     this.tags.removeAt(index);
+  }
+
+  @action addTagObject(tag) {
+    this.tagsObjects.pushObject({
+      label: tag,
+      modifiers: this.colors[Math.floor(Math.random() * 3)]
+    });
+  }
+
+  @action removeTagObjectAtIndex(index) {
+    this.tagsObjects.removeAt(index);
   }
 
   @action onKeyUp(value) {

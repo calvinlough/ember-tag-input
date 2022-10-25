@@ -1,5 +1,5 @@
 {{#each this.tags as |tag index|~}}
-  <li class="emberTagInput-tag">
+  <li class="emberTagInput-tag {{tag.modifiers}}">
     {{yield tag}}
     {{#if this._isRemoveButtonVisible}}
       <a class="emberTagInput-remove" {{on 'click' (fn this.removeTag index)}}></a>
