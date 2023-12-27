@@ -22,8 +22,6 @@ module(
     };
 
     test('New tags are created when delimiter characters are typed', async function (assert) {
-      assert.expect(4);
-
       const tags = A();
 
       this.addTag = function (tag) {
@@ -57,8 +55,6 @@ module(
     });
 
     test('New tags are created when the field is blurred', async function (assert) {
-      assert.expect(3);
-
       const tags = A();
 
       this.addTag = function (tag) {
@@ -88,8 +84,6 @@ module(
     });
 
     test('Tags can be removed using the backspace key', async function (assert) {
-      assert.expect(5);
-
       const tags = A();
 
       this.addTag = function (tag) {
@@ -136,8 +130,6 @@ module(
     });
 
     test('Tags can contain spaces when allowSpacesInTags is set to true', async function (assert) {
-      assert.expect(3);
-
       const tags = A();
 
       this.addTag = function (tag) {
@@ -168,8 +160,6 @@ module(
     });
 
     test('Tags should not contain comma by default when allowCommaInTags is not provided', async function (assert) {
-      assert.expect(3);
-
       const tags = A();
 
       this.addTag = function (tag) {
@@ -204,8 +194,6 @@ module(
     });
 
     test('Tags can contain commas when allowCommaInTags is set to true', async function (assert) {
-      assert.expect(3);
-
       const tags = A();
 
       this.addTag = function (tag) {
@@ -237,8 +225,6 @@ module(
     });
 
     test("Tags can't be added or removed in read only mode", async function (assert) {
-      assert.expect(5);
-
       const tags = A(['hamburger', 'cheeseburger']);
       this.set('tags', tags);
 
@@ -299,8 +285,6 @@ module(
     });
 
     test('Tags can be added after readOnly changes to false', async function (assert) {
-      assert.expect(4);
-
       const tags = A();
 
       this.addTag = function (tag) {
@@ -333,8 +317,6 @@ module(
     });
 
     test('input is disabled after readOnly changes from false to true', async function (assert) {
-      assert.expect(2);
-
       const tags = A(['hamburger', 'cheeseburger']);
 
       this.set('tags', tags);
