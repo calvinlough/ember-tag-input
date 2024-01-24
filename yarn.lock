@@ -5247,10 +5247,10 @@ ember-cli-version-checker@^5.1.1, ember-cli-version-checker@^5.1.2:
     semver "^7.3.4"
     silent-error "^1.1.1"
 
-ember-cli@~5.5.0:
-  version "5.5.0"
-  resolved "https://registry.yarnpkg.com/ember-cli/-/ember-cli-5.5.0.tgz#ebfa383a82f437dfb30b421cf4f6e52eb3581ddd"
-  integrity sha512-D3Q+mq5yOpZB1pJu4aOnVj5+LTwXmd5sJhXqZxc9Y0JFRYinl4h0HHGUMUvtV7obo811gf13ObDAaUmSfVPQbQ==
+ember-cli@~5.6.0:
+  version "5.6.0"
+  resolved "https://registry.yarnpkg.com/ember-cli/-/ember-cli-5.6.0.tgz#0f54c8b0783de515df1885ac133aedf974c3deb8"
+  integrity sha512-9ARiTnNgQDX6RPC37PjlEc58/e8p7pgmNu6GcmARq4iBLeTWWW+2mgw3HKoFd91ob1EdRiglskLYzgboRxtBBw==
   dependencies:
     "@pnpm/find-workspace-dir" "^6.0.2"
     broccoli "^3.5.2"
@@ -10999,12 +10999,7 @@ workerpool@^3.1.1:
     object-assign "4.1.1"
     rsvp "^4.8.4"
 
-workerpool@^6.0.0, workerpool@^6.4.0:
-  version "6.4.0"
-  resolved "https://registry.yarnpkg.com/workerpool/-/workerpool-6.4.0.tgz#f8d5cfb45fde32fa3b7af72ad617c3369567a462"
-  integrity sha512-i3KR1mQMNwY2wx20ozq2EjISGtQWDIfV56We+yGJ5yDs8jTwQiLLaqHlkBHITlCuJnYlVRmXegxFxZg7gqI++A==
-
-workerpool@^6.0.2:
+workerpool@^6.0.0, workerpool@^6.0.2, workerpool@^6.4.0:
   version "6.5.1"
   resolved "https://registry.yarnpkg.com/workerpool/-/workerpool-6.5.1.tgz#060f73b39d0caf97c6db64da004cd01b4c099544"
   integrity sha512-Fs4dNYcsdpYSAfVxhnl1L5zTksjvOJxtC5hzMNl+1t9B8hTJTdKDyZ5ju7ztgPy+ft9tBFXoOlDNiOT9WUXZlA==
