@@ -15,6 +15,7 @@ module.exports = {
   rules: {
     'ember/no-array-prototype-extensions': 'off',
     'ember/no-classic-components': 'off',
+    'ember/no-runloop': 'off',
     'ember/require-tagless-components': 'off',
     'ember/no-component-lifecycle-hooks': 'off'
   },
