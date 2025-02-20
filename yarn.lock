@@ -4618,11 +4618,6 @@ ember-cli-is-package-missing@^1.0.0:
   resolved "https://registry.yarnpkg.com/ember-cli-is-package-missing/-/ember-cli-is-package-missing-1.0.0.tgz#6e6184cafb92635dd93ca6c946b104292d4e3390"
   integrity sha1-bmGEyvuSY13ZPKbJRrEEKS1OM5A=
 
-ember-cli-lodash-subset@^2.0.1:
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/ember-cli-lodash-subset/-/ember-cli-lodash-subset-2.0.1.tgz#20cb68a790fe0fde2488ddfd8efbb7df6fe766f2"
-  integrity sha1-IMtop5D+D94kiN39jvu332/nZvI=
-
 ember-cli-normalize-entity-name@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/ember-cli-normalize-entity-name/-/ember-cli-normalize-entity-name-1.0.0.tgz#0b14f7bcbc599aa117b5fddc81e4fd03c4bad5b7"
@@ -4704,9 +4699,9 @@ ember-cli-version-checker@^5.1.2:
     silent-error "^1.1.1"
 
 ember-cli@~6.2.0:
-  version "6.2.0"
-  resolved "https://registry.yarnpkg.com/ember-cli/-/ember-cli-6.2.0.tgz#521442ef48e3fc33ab97372548ae938cce1a46b0"
-  integrity sha512-VmIpH3Gm2XyqnbzwUa9CJFiJUJdj+u2CW4WRYAqTAt77JIQ5DK9Hgr8d5T3Vkmqvai/0JgnvJdb1dprJbX0YFg==
+  version "6.2.2"
+  resolved "https://registry.yarnpkg.com/ember-cli/-/ember-cli-6.2.2.tgz#04113eca95ed3741e70d5c174df9067628d814f3"
+  integrity sha512-PJNJ3Ib1IP85NJlw/AdzX76ZIDcyAAFJfDz/wFJQ+hqTFNWsjVjXl20X3ePQkKfZZlF421EC5nsLBOwbHqsh9g==
   dependencies:
     "@pnpm/find-workspace-dir" "^7.0.2"
     babel-remove-types "^1.0.0"
@@ -4736,7 +4731,6 @@ ember-cli@~6.2.0:
     dag-map "^2.0.2"
     diff "^5.1.0"
     ember-cli-is-package-missing "^1.0.0"
-    ember-cli-lodash-subset "^2.0.1"
     ember-cli-normalize-entity-name "^1.0.0"
     ember-cli-preprocess-registry "^5.0.1"
     ember-cli-string-utils "^1.1.0"
