@@ -4777,9 +4777,9 @@ ember-source@~6.2.0:
     simple-html-tokenizer "^0.5.11"
 
 ember-template-lint@^7.0.0:
-  version "7.0.0"
-  resolved "https://registry.yarnpkg.com/ember-template-lint/-/ember-template-lint-7.0.0.tgz#e1d57e4e495de5402c2f6c00c4eedf29022cdbfc"
-  integrity sha512-LWAgk/kpcYrMCIWBxC7tf+yd2t870Sk0nUAOSvow0TQxmbLADRPNlqijW3+yGf8CGzEK1eLUInzJQdm23xJxyQ==
+  version "7.0.1"
+  resolved "https://registry.yarnpkg.com/ember-template-lint/-/ember-template-lint-7.0.1.tgz#c6c71698924515aa01643983982cd619b00e9b50"
+  integrity sha512-rFGrioqtoHyWGig6PsURQYL797Hj1u9Wbn8ZyTO3H0NUNrRgPOX+2Gu9uTrmnf+KWry/2GB+yok6OY7mVSygIA==
   dependencies:
     "@babel/generator" "^7.26.9"
     "@babel/parser" "^7.21.8"
